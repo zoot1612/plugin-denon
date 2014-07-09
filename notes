@@ -1,0 +1,55 @@
+Having issues? Try the following: -
+
+Try powering off receiver then back on again.
+
+Check that no other clients are connected to port already.
+
+Check "Network Option: Standby Mode Power Saving" is set to off.
+
+Serial connection details:-
+   	Communication system: A half duplex
+		Communication speed: 9600bps
+		Character length: 8 bits
+		Parity control: None
+		Start bit: 1 bit
+		Stop bit: 1 bit
+
+Ethernet connection details:-
+	  Communication system: A half duplex
+    speed: 10Mbps/100Mbps
+    port: TCP port 23 (telnet)
+
+----------------------------------------------------------------
+Release 0.446
+version to VERSION --thanks Marciorschneider
+----------------------------------------------------------------
+Release 0.445
+L_DenonReceiver1.lua:Removed some unsupported commands in the hope that it improves stability.
+----------------------------------------------------------------
+Release 0.444
+L_DenonReceiver1.lua:Changed the way master volume is handled, I am going to revisit this and redo (again).
+
+CreateJSON.lua:Added some prework for tuner and XM tabs. This currently only works for the 3808 as I am using some undocumented commands and not 100% sure which models support them.
+CreateJSON.lua:Added new icon and volume indicators (numberic). These have a % postfix this is not correct. Also volume is not handled correctly in zones as min volume is "10"
+------------------------------
+L_DenonReceiver1.lua:Fixed Standby and On buttons in device view.
+L_DenonReceiver1.lua:Added Model 3313 (theitalianguy).
+L_DenonReceiver1.lua:Added Model 4520 (mda).
+L_DenonReceiver1.lua:Tuner (started).
+L_DenonReceiver1.lua:Fixed auto naming from RR command.
+L_DenonReceiver1.lua:Escape backslash for JSON file.
+L_DenonReceiver1.lua:Added Marantz NR1602EUR (Bamsefar).
+
+CreateJSON.lua:added some debug output for attrib set of device file.
+CreateJSON.lua:fixed JSON parse errors.
+
+CreateJSON.lua:Changed icon
+CreateJSON.lua:Added volume to UI (Work in progress).
+------------------------------
+
+List of undocumented commands currently in use with this plugin: -
+("RR?")			--zone names
+("SSFUN ?")		--input names
+("SYMO")		--model
+("SSTPN ?")		--preset info (tuner)
+("SSXPN ?")		--preset info (XM)

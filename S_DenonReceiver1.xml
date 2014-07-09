@@ -1,0 +1,164 @@
+<?xml version="1.0"?>
+<scpd xmlns="urn:schemas-upnp-org:service-1-0">
+  <specVersion>
+    <major>1</major>
+    <minor>0</minor>
+  </specVersion>
+  <serviceStateTable>
+     <stateVariable sendEvents="yes">
+      <name>Volume</name>
+      <datatype>i4</datatype>
+    </stateVariable>
+    
+    <stateVariable sendEvents="yes">
+      <name>VolumeDecibel</name>
+      <datatype>i4</datatype>
+    </stateVariable>
+ 
+    <stateVariable sendEvents="no">
+      <name>volType</name>
+      <datatype>string</datatype>
+			<defaultValue>0</defaultValue>
+    </stateVariable>
+
+    <stateVariable sendEvents="no">
+      <name>fade</name>
+      <datatype>boolean</datatype>
+			<defaultValue>0</defaultValue>
+    </stateVariable>
+	
+    <stateVariable sendEvents="yes">
+      <name>Input</name>
+      <datatype>string</datatype>
+    </stateVariable>
+
+    <stateVariable sendEvents="yes">
+      <name>Surround</name>
+      <datatype>string</datatype>
+    </stateVariable>
+
+    <stateVariable sendEvents="yes">
+      <name>Command</name>
+      <datatype>string</datatype>
+    </stateVariable>
+
+    <stateVariable sendEvents="yes">
+      <name>PowerStatus</name>
+      <datatype>boolean</datatype>
+			<defaultValue>0</defaultValue>
+			<shortCode>powerstatus</shortCode>
+    </stateVariable>
+
+  </serviceStateTable>
+  <actionList>
+    <action>
+      <name>SetVolumeTarget</name>
+      <argumentList>
+        <argument>
+          <name>newTargetValue</name>
+          <direction>in</direction>
+					<relatedStateVariable>Volume</relatedStateVariable>
+        </argument>
+        <argument>
+					<name>Fade</name>
+					<direction>in</direction>
+					<relatedStateVariable>fade</relatedStateVariable>
+        </argument>
+        <argument>
+					<name>VolType</name>
+					<direction>in</direction>
+					<relatedStateVariable>volType</relatedStateVariable>
+        </argument>
+      </argumentList>
+    </action>
+
+    <action>
+      <name>SetInputTarget</name>
+      <argumentList>
+        <argument>
+          <name>newInputValue</name>
+          <direction>in</direction>
+					<relatedStateVariable>Input</relatedStateVariable>
+        </argument>
+      </argumentList>
+    </action>
+
+    <action>
+      <name>SendCommand</name>
+      <argumentList>
+        <argument>
+          <name>newCommand</name>
+          <direction>in</direction>
+					<relatedStateVariable>Command</relatedStateVariable>
+        </argument>
+      </argumentList>
+    </action>
+
+    <action>
+      <name>Input1</name>
+    </action>
+    <action>
+      <name>Input2</name>
+    </action>
+    <action>
+      <name>Input3</name>
+    </action>
+    <action>
+      <name>Input4</name>
+    </action>
+    <action>
+      <name>Input5</name>
+    </action>
+    <action>
+      <name>Input6</name>
+    </action>
+    <action>
+      <name>Input7</name>
+    </action>
+    <action>
+      <name>Input8</name>
+    </action>
+    <action>
+      <name>Input9</name>
+    </action>
+    <action>
+      <name>Input10</name>
+    </action>
+    <action>
+      <name>Input11</name>
+    </action>
+    <action>
+      <name>Input12</name>
+    </action>
+    <action>
+      <name>Input13</name>
+    </action>
+    <action>
+      <name>Input14</name>
+    </action>
+    <action>
+      <name>Input15</name>
+    </action>
+    <action>
+      <name>Input16</name>
+    </action>
+    <action>
+      <name>Input17</name>
+    </action>
+    <action>
+      <name>Input18</name>
+    </action>
+    <action>
+      <name>Input19</name>
+    </action>
+    <action>
+      <name>Input20</name>
+    </action>
+    <action>
+      <name>Source</name>
+    </action>
+
+
+
+  </actionList>
+</scpd>
