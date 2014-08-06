@@ -21,7 +21,11 @@ Ethernet connection details:-
 
 Under the "Advanced" tab set the "Setup" to "0" then restart the luup engine.
 This will rewrite the json and xml device files.
+----------------------------------------------------------------
+Release 0.5
+Bug: S_DenonReceiver1.xml. The line 90 should be "<name>Command</name>" and not "<name>newCommand</name>" (Marciorschneider)
 
+Also added source variable to "Advanced" tab to enable easier mapping of outputs.
 ----------------------------------------------------------------
 Release 0.447
 ['1713'] = {zones = "2"} (tb001)

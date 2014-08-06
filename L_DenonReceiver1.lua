@@ -1,4 +1,4 @@
-local VERSION = "0.447"
+local VERSION = "0.5"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -139,6 +139,18 @@ function setVolume(device, volume, fade, voltype)
 	end
 
 end
+------------------------------------------------------------------------------------------
+function get_source(input_source)
+	for k, v in pairs(g_sourceName) do
+		local source = (g_sourceName[k]["source"])
+		debug("get_source: " .. input_source  .. " " .. k .. " " .. source,1)
+		if source == input_source then
+			return k
+		end
+	end
+	return false
+end
+
 ------------------------------------------------------------------------------------------
 function setInput(device, input_no)
 
@@ -312,6 +324,8 @@ local RECEIVER_RESPONSES = {
     handlerFunc = function (self, data, msgZone)
 			log(self.description..": Input Source: " .. data)
 			luup.variable_set(DEN_SID,"Input",data,msgZone)
+			local source =get_source(data) or " Unknown"
+			luup.variable_set(DEN_SID,"Source","Input"..source,msgZone)
 			log("response: data received SI " .. data .. " " .. self.description)
 			return true
 			end
@@ -504,18 +518,6 @@ function findChild(label)
 
 	return false
 end
-------------------------------------------------------------------------------------------
-function get_source(input_source)
-	for k, v in pairs(g_sourceName) do
-		local source = (g_sourceName[k]["source"])
-		debug("get_source: " .. input_source  .. " " .. k .. " " .. source,1)
-		if source == input_source then
-			return k
-		end
-	end
-	return false
-end
-
 ------------------------------------------------------------------------------------------
 function processInterceptedMessage(command)
 	command = (command:sub(1,2) == "RR") and command:sub(1,1) or command:sub(1,2)

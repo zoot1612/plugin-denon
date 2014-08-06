@@ -9,12 +9,12 @@
       <name>Volume</name>
       <datatype>i4</datatype>
     </stateVariable>
-    
+
     <stateVariable sendEvents="yes">
       <name>VolumeDecibel</name>
       <datatype>i4</datatype>
     </stateVariable>
- 
+
     <stateVariable sendEvents="no">
       <name>volType</name>
       <datatype>string</datatype>
@@ -26,9 +26,14 @@
       <datatype>boolean</datatype>
 			<defaultValue>0</defaultValue>
     </stateVariable>
-	
+
     <stateVariable sendEvents="yes">
       <name>Input</name>
+      <datatype>string</datatype>
+    </stateVariable>
+
+    <stateVariable sendEvents="yes">
+      <name>Source</name>
       <datatype>string</datatype>
     </stateVariable>
 
@@ -87,7 +92,7 @@
       <name>SendCommand</name>
       <argumentList>
         <argument>
-          <name>newCommand</name>
+          <name>Command</name>
           <direction>in</direction>
 					<relatedStateVariable>Command</relatedStateVariable>
         </argument>
