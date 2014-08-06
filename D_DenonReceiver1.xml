@@ -54,6 +54,11 @@
         <SCPDURL>S_TogglePower1.xml</SCPDURL>
       </service>
       <service>
+        <serviceType>urn:upnp-org:serviceId:RenderingControl:1</serviceType>
+        <serviceId>urn:upnp-org:serviceId:RenderingControl1</serviceId>
+        <SCPDURL>S_DLNARenderingControl1.xml</SCPDURL>
+      </service>
+      <service>
         <serviceType>urn:micasaverde-com:service:Tuning:1</serviceType>
         <serviceId>urn:micasaverde-com:serviceId:Tuning1</serviceId>
         <SCPDURL>S_Tuning1.xml</SCPDURL>

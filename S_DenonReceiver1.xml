@@ -5,6 +5,7 @@
     <minor>0</minor>
   </specVersion>
   <serviceStateTable>
+<!--
      <stateVariable sendEvents="yes">
       <name>Volume</name>
       <datatype>i4</datatype>
@@ -18,15 +19,15 @@
     <stateVariable sendEvents="no">
       <name>volType</name>
       <datatype>string</datatype>
-			<defaultValue>0</defaultValue>
+            <defaultValue>0</defaultValue>
     </stateVariable>
 
     <stateVariable sendEvents="no">
       <name>fade</name>
       <datatype>boolean</datatype>
-			<defaultValue>0</defaultValue>
+            <defaultValue>0</defaultValue>
     </stateVariable>
-
+-->
     <stateVariable sendEvents="yes">
       <name>Input</name>
       <datatype>string</datatype>
@@ -50,40 +51,42 @@
     <stateVariable sendEvents="yes">
       <name>PowerStatus</name>
       <datatype>boolean</datatype>
-			<defaultValue>0</defaultValue>
-			<shortCode>powerstatus</shortCode>
+            <defaultValue>0</defaultValue>
+            <shortCode>powerstatus</shortCode>
     </stateVariable>
 
   </serviceStateTable>
+  
   <actionList>
+<!--
     <action>
       <name>SetVolumeTarget</name>
       <argumentList>
         <argument>
           <name>newTargetValue</name>
           <direction>in</direction>
-					<relatedStateVariable>Volume</relatedStateVariable>
+                    <relatedStateVariable>Volume</relatedStateVariable>
         </argument>
         <argument>
-					<name>Fade</name>
-					<direction>in</direction>
-					<relatedStateVariable>fade</relatedStateVariable>
+                    <name>Fade</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>fade</relatedStateVariable>
         </argument>
         <argument>
-					<name>VolType</name>
-					<direction>in</direction>
-					<relatedStateVariable>volType</relatedStateVariable>
+                    <name>VolType</name>
+                    <direction>in</direction>
+                    <relatedStateVariable>volType</relatedStateVariable>
         </argument>
       </argumentList>
     </action>
-
+-->
     <action>
       <name>SetInputTarget</name>
       <argumentList>
         <argument>
           <name>newInputValue</name>
           <direction>in</direction>
-					<relatedStateVariable>Input</relatedStateVariable>
+                    <relatedStateVariable>Input</relatedStateVariable>
         </argument>
       </argumentList>
     </action>
@@ -94,11 +97,11 @@
         <argument>
           <name>Command</name>
           <direction>in</direction>
-					<relatedStateVariable>Command</relatedStateVariable>
+                    <relatedStateVariable>Command</relatedStateVariable>
         </argument>
       </argumentList>
     </action>
-
+<!--
     <action>
       <name>Input1</name>
     </action>
@@ -129,6 +132,7 @@
     <action>
       <name>Input10</name>
     </action>
+-->
     <action>
       <name>Input11</name>
     </action>

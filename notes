@@ -22,6 +22,43 @@ Ethernet connection details:-
 Under the "Advanced" tab set the "Setup" to "0" then restart the luup engine.
 This will rewrite the json and xml device files.
 ----------------------------------------------------------------
+Release 0.6
+This release will probably break a few things: -
+--
+To try and fit with other AV plugins/Remote Controls and DLNA.
+
+Moved Volume to:
+Service: urn:upnp-org:serviceId:RenderingControl
+Action: SetVolume
+Variable: DesiredVolume
+
+and
+
+Service: urn:micasaverde-com:serviceId:Volume1
+Action: Up, Down
+
+
+Moved Mute to:
+Service: urn:upnp-org:serviceId:RenderingControl
+Action: SetMute
+Variable: DesiredMute
+Value: 0 or 1 (0 = mute off, 1 = mute on)
+
+and
+
+Service: urn:micasaverde-com:serviceId:Volume1
+Action: Mute
+
+
+Moved Input Selection 1 - 10:
+Service: urn:micasaverde-com:serviceId:InputSelection1
+Action: Input1 - Input10
+--
+Changed naming to main zone that once initial setup is done you can change
+the name and it will stick, if the setup is run again this name will be reset.
+
+
+----------------------------------------------------------------
 Release 0.5
 Bug: S_DenonReceiver1.xml. The line 90 should be "<name>Command</name>" and not "<name>newCommand</name>" (Marciorschneider)
 

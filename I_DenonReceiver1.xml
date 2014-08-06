@@ -1,13 +1,11 @@
-
-
 <?xml version="1.0" encoding="UTF-8"?>
 <implementation>
-  <settings>
-    <protocol>cr</protocol>
-  </settings>
-  <files>L_DenonReceiver1.lua</files>
-  <incoming>
-    <lua>local dataLength = 0
+    <settings>
+        <protocol>cr</protocol>
+    </settings>
+    <files>L_DenonReceiver1.lua</files>
+    <incoming>
+        <lua>local dataLength = 0
         local data = tostring(lul_data)
         dataLength = string.len(data)
         if (dataLength ~= "") then
@@ -15,186 +13,176 @@
         else
             log("(incoming) No response received.")
         end</lua>
-  </incoming>
-  <startup>receiverStartup</startup>
-  <actionList>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input1</name>
-      <run>setInput(lul_device, '1')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input2</name>
-      <run>setInput(lul_device,'2')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input3</name>
-      <run>setInput(lul_device, '3')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input4</name>
-      <run>setInput(lul_device, '4')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input5</name>
-      <run>setInput(lul_device, '5')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input6</name>
-      <run>setInput(lul_device, '6')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input7</name>
-      <run>setInput(lul_device, '7')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input8</name>
-      <run>setInput(lul_device, '8')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input9</name>
-      <run>setInput(lul_device, '9')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input10</name>
-      <run>setInput(lul_device, '10')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input11</name>
-      <run>setInput(lul_device, '11')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input12</name>
-      <run>setInput(lul_device, '12')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input13</name>
-      <run>setInput(lul_device, '13')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input14</name>
-      <run>setInput(lul_device, '14')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input15</name>
-      <run>setInput(lul_device, '15')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input16</name>
-      <run>setInput(lul_device, '16')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input17</name>
-      <run>setInput(lul_device, '17')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input18</name>
-      <run>setInput(lul_device, '18')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input19</name>
-      <run>setInput(lul_device, '19')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>Input20</name>
-      <run>setInput(lul_device, '20')</run>
-    </action>
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>SetInputTarget</name>
-      <run>setInput(lul_device, lul_settings.source)</run>
-    </action>
-
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>SendCommand</name>
-      <run>AVRReceiverSend(lul_settings.Command)</run>
-    </action>
-    <action>
-      <serviceId>urn:micasaverde-com:serviceId:DiscretePower1</serviceId>
-      <name>Off</name>
-      <run>-- Power off
-				AVRReceiverSend("PWSTANDBY")</run>
-    </action>
-    <action>
-      <serviceId>urn:micasaverde-com:serviceId:DiscretePower1</serviceId>
-      <name>On</name>
-      <run>-- Power on
-				AVRReceiverSend("PWON")</run>
-    </action>
-    <action>
-      <serviceId>urn:upnp-org:serviceId:SwitchPower1</serviceId>
-      <name>SetTarget</name>
-      <run>local msgZone = findZone(lul_device)
-        --local powerStatus = luup.variable_get(SWP_SID, SWP_TARGET, lul_device)
-        local value = tostring(lul_settings.newTargetValue)
-		local command = ""
-
-		--if(msgZone == "ZM") then
-        	--command = (value == "1") and "PWON" or "STANDBY"
-		--else
-        	command = msgZone .. ((value == "1") and "ON" or "OFF")
-		--end
-
-        log("(SetTarget) " .. msgZone)
-        AVRReceiverSend(command)</run>
-    </action>
-    <action>
-      <serviceId>urn:upnp-org:serviceId:SwitchPower1</serviceId>
-      <name>GetTarget</name>
-      <run>AVRReceiverSend("PW?")
-        --local target = luup.variable_get(SWP_SID, SWP_TARGET, lul_device)</run>
-    </action>
-    <action>
-      <serviceId>urn:micasaverde-com:serviceId:HaDevice1</serviceId>
-      <name>ToggleState</name>
-      <run>local value = luup.variable_get(SWP_SID,SWP_STATUS,lul_device)
-        luup.call_action(SWP_SID,SWP_SET_TARGET,'newTargetValue=' .. ((value=='1') and '0' or '1') , lul_device)</run>
-    </action>
-    <action>
-      <serviceId>urn:micasaverde-com:serviceId:Volume1</serviceId>
-      <name>Mute</name>
-      <run>local value = ((lul_settings.newTargetValue == '1') and 'ON' or 'OFF')
-        setMute(lul_device, value)</run>
-    </action>
-    <action>
-      <serviceId>urn:micasaverde-com:serviceId:Volume1</serviceId>
-      <name>Up</name>
-      <run>-- Volume up
-        setVolume(lul_device, 'UP')</run>
-    </action>
-    <action>
-      <serviceId>urn:micasaverde-com:serviceId:Volume1</serviceId>
-      <name>Down</name>
-      <run>-- Volume down
-        setVolume(lul_device, 'DOWN')</run>
-    </action>
-
-    <action>
-      <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
-      <name>SetVolumeTarget</name>
-      <run>setVolume(lul_device, lul_settings.newTargetValue, lul_settings.Fade, lul_settings.VolType)</run>
-    </action>
-
-  </actionList>
+    </incoming>
+    <startup>receiverStartup</startup>
+    <actionList>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:InputSelection1</serviceId>
+            <name>Input1</name>
+            <run>setInput(lul_device, '1')</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:InputSelection1</serviceId>
+            <name>Input2</name>
+            <run>setInput(lul_device,'2')</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:InputSelection1</serviceId>
+            <name>Input3</name>
+            <run>setInput(lul_device, '3')</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:InputSelection1</serviceId>
+            <name>Input4</name>
+            <run>setInput(lul_device, '4')</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:InputSelection1</serviceId>
+            <name>Input5</name>
+            <run>setInput(lul_device, '5')</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:InputSelection1</serviceId>
+            <name>Input6</name>
+            <run>setInput(lul_device, '6')</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:InputSelection1</serviceId>
+            <name>Input7</name>
+            <run>setInput(lul_device, '7')</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:InputSelection1</serviceId>
+            <name>Input8</name>
+            <run>setInput(lul_device, '8')</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:InputSelection1</serviceId>
+            <name>Input9</name>
+            <run>setInput(lul_device, '9')</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:InputSelection1</serviceId>
+            <name>Input10</name>
+            <run>setInput(lul_device, '10')</run>
+        </action>
+        <action>
+            <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+            <name>Input11</name>
+            <run>setInput(lul_device, '11')</run>
+        </action>
+        <action>
+            <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+            <name>Input12</name>
+            <run>setInput(lul_device, '12')</run>
+        </action>
+        <action>
+            <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+            <name>Input13</name>
+            <run>setInput(lul_device, '13')</run>
+        </action>
+        <action>
+            <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+            <name>Input14</name>
+            <run>setInput(lul_device, '14')</run>
+        </action>
+        <action>
+            <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+            <name>Input15</name>
+            <run>setInput(lul_device, '15')</run>
+        </action>
+        <action>
+            <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+            <name>Input16</name>
+            <run>setInput(lul_device, '16')</run>
+        </action>
+        <action>
+            <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+            <name>Input17</name>
+            <run>setInput(lul_device, '17')</run>
+        </action>
+        <action>
+            <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+            <name>Input18</name>
+            <run>setInput(lul_device, '18')</run>
+        </action>
+        <action>
+            <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+            <name>Input19</name>
+            <run>setInput(lul_device, '19')</run>
+        </action>
+        <action>
+            <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+            <name>Input20</name>
+            <run>setInput(lul_device, '20')</run>
+        </action>
+        <action>
+            <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+            <name>SetInputTarget</name>
+            <run>setInput(lul_device, lul_settings.source)</run>
+        </action>
+        <action>
+            <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+            <name>SendCommand</name>
+            <run>AVRReceiverSend(lul_settings.Command)</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:DiscretePower1</serviceId>
+            <name>Off</name>
+            <run>AVRReceiverSend("PWSTANDBY")</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:DiscretePower1</serviceId>
+            <name>On</name>
+            <run>AVRReceiverSend("PWON")</run>
+        </action>
+        <action>
+            <serviceId>urn:upnp-org:serviceId:SwitchPower1</serviceId>
+            <name>SetTarget</name>
+            <run>local msgZone = findZone(lul_device)
+			local value = tostring(lul_settings.newTargetValue)
+			local command = ""
+			command = msgZone .. ((value == "1") and "ON" or "OFF")
+			log("(SetTarget) " .. msgZone)
+			AVRReceiverSend(command)</run>
+        </action>
+        <action>
+            <serviceId>urn:upnp-org:serviceId:SwitchPower1</serviceId>
+            <name>GetTarget</name>
+            <run>AVRReceiverSend("PW?")</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:HaDevice1</serviceId>
+            <name>ToggleState</name>
+            <run>local value = luup.variable_get(SWP_SID,SWP_STATUS,lul_device)
+			luup.call_action(SWP_SID,SWP_SET_TARGET,'newTargetValue=' .. ((value=='1') and '0' or '1') , lul_device)</run>
+        </action>
+        <action>
+            <serviceId>urn:upnp-org:serviceId:RenderingControl1</serviceId>
+            <name>SetMute</name>
+            <run>local value = ((lul_settings.DesiredMute == '1') and 'ON' or 'OFF')
+			setMute(lul_device, value)</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:Volume1</serviceId>
+            <name>Mute</name>
+            <run>local value = ((lul_settings.DesiredMute == '1') and 'ON' or 'OFF')
+			setMute(lul_device, value)</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:Volume1</serviceId>
+            <name>Up</name>
+            <run>setVolume(lul_device, 'UP')</run>
+        </action>
+        <action>
+            <serviceId>urn:micasaverde-com:serviceId:Volume1</serviceId>
+            <name>Down</name>
+            <run>setVolume(lul_device, 'DOWN')</run>
+        </action>
+        <action>
+            <serviceId>urn:upnp-org:serviceId:RenderingControl1</serviceId>
+            <name>SetVolume</name>
+            <run>setVolume(lul_device, lul_settings.DesiredVolume)</run>
+        </action>
+    </actionList>
 </implementation>
-

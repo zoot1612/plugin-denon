@@ -1,4 +1,4 @@
-local VERSION = "0.5"
+local VERSION = "0.6"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -8,6 +8,7 @@ local SWP_SET_TARGET = "SetTarget"
 local IPS_IID = "urn:micasaverde-com:serviceId:InputSelection1"
 local VOL_SID = "urn:micasaverde-com:serviceId:Volume1"
 local DEN_SID = "urn:denon-com:serviceId:Receiver1"
+local REN_SID = "urn:upnp-org:serviceId:RenderingControl1"
 
 local DEVICETYPE_DENON_AVR_CONTROL = "urn:schemas-denon-com:device:receiver:1"
 local DEVICEFILE_DENON_AVR_CONTROL = "D_DenonReceiver1.xml"
@@ -114,25 +115,14 @@ function setMasterPower(status)
 
 end
 -----------------------------------------------------------------------------------
-function setVolume(device, volume, fade, voltype)
+function setVolume(device, volume)
 
 	local zone = findZone(device)
-	fade = (fade == 'true') and true or false
 	local prefix = (zone ~= "ZM") and zone or "MV"
-	local current_volume = tonumber(luup.variable_get(DEN_SID,"Volume",avr_rec_dev),10)
+	local current_volume = tonumber(luup.variable_get(REN_SID,"Volume",avr_rec_dev),10)
 	if ((tonumber(volume)) ~= nil) then
-		volume = tonumber(volume)
-		if (fade) then
-			local step = (current_volume > volume) and -0.5 or 0.5
-			for i = current_volume, volume, step do
-				volume = normaliseVolume(device, i)
-				luup.sleep(200)
-				AVRReceiverSend(prefix .. volume)
-			end
-		else
-			volume = normaliseVolume(device, volume)
-			AVRReceiverSend(prefix .. volume)
-		end
+		volume = normaliseVolume(device, tonumber(volume))
+		AVRReceiverSend(prefix .. volume)
 	else
 		volume = (volume == "UP") and "UP" or "DOWN"
 		AVRReceiverSend(prefix .. volume)
@@ -261,14 +251,15 @@ local RECEIVER_RESPONSES = {
 		handlerFunc = function (self, data, msgZone)
       local volume = data:match("(%d+)")
       volume = (volume:len() == 3) and tonumber(volume/10) or tonumber(volume)
+	  volume = (volume == 99) and 0 or volume
 			if ((string.find(data, "MAX"))) then
 				log(self.description..": Setting MAX_VOL: " .. volume)
 				MAX_VOL = volume
 				return true
 			end
 			debug(self.description..": Volume: " .. volume .. " db: " .. (volume-80))
-			luup.variable_set(DEN_SID,"VolumeDecibel",volume-80,msgZone)
-			luup.variable_set(DEN_SID,"Volume",volume,msgZone)
+			luup.variable_set(REN_SID,"VolumeDB",volume-80,msgZone)
+			luup.variable_set(REN_SID,"Volume",volume,msgZone)
 			return true
 		end
     },
@@ -278,9 +269,9 @@ local RECEIVER_RESPONSES = {
 		handlerFunc = function (self, data, msgZone)
 			log(self.description..": Mute: " .. data)
 			if (data == "OFF") then
-				luup.variable_set(VOL_SID,"Mute","0",msgZone)
+				luup.variable_set(REN_SID,"Mute","0",msgZone)
 			elseif (data == "ON") then
-				luup.variable_set(VOL_SID,"Mute","1",msgZone)
+				luup.variable_set(REN_SID,"Mute","1",msgZone)
 			else
 				log("response: unkown mute command" .. data .. " " .. self.description)
 			end
@@ -325,6 +316,7 @@ local RECEIVER_RESPONSES = {
 			log(self.description..": Input Source: " .. data)
 			luup.variable_set(DEN_SID,"Input",data,msgZone)
 			local source =get_source(data) or " Unknown"
+			--luup.variable_set(IPS_IID,"Source","Input"..source,msgZone)
 			luup.variable_set(DEN_SID,"Source","Input"..source,msgZone)
 			log("response: data received SI " .. data .. " " .. self.description)
 			return true
@@ -571,9 +563,12 @@ local function createZones(avr_rec_dev)
 	end
 
 	local zones = (MODEL[modelNumber] ~= nil) and MODEL[modelNumber].zones or manual_zones
-
-	luup.attr_set("name", (detected_model or "AVR") .. '_' ..(g_zones[1]), avr_rec_dev)
-
+	
+	local setupStatus = luup.variable_get(DEN_SID, "Setup", avr_rec_dev) or ""
+	if (setupStatus == "" or setupStatus == "0") then
+		luup.attr_set("name", (detected_model or "AVR") .. '_' ..(g_zones[1]), avr_rec_dev)
+	end
+	
 	for zone_num in zones:gmatch("%d+") do
 		local autoName = g_zones[tonumber(zone_num)]
 		zoneName = (detected_model or 'AVR') .. '_' .. autoName
@@ -655,6 +650,7 @@ function receiverStartup(lul_device)
 	if (not connectionType()) then
 		return false, "Communications error", "AVR Receiver"
 	end
+	luup.variable_set("urn:micasaverde-com:serviceId:HaDevice1","CommFailure","0", avr_rec_dev)
 
 	--Set initial power status
 	luup.variable_set(SWP_SID,SWP_STATUS,"0",avr_rec_dev)
@@ -683,7 +679,6 @@ function receiverStartup(lul_device)
 
 	luup.register_handler("callbackHandler", "tuner")
 	luup.register_handler("callbackHandler", "xm")
-    luup.variable_set("urn:micasaverde-com:serviceId:HaDevice1","CommFailure","0", avr_rec_dev)
 
 	return true, "Startup successful.", "AVR Receiver"
 

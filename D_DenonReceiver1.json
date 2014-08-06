@@ -10,7 +10,7 @@
 			"inScene": "1",
 			"DisplayStatus": {
 				"Style": "numeric",
-				"Service": "urn:denon-com:serviceId:Receiver1",
+				"Service": "urn:upnp-org:serviceId:RenderingControl1",
 				"Variable": "Volume",
 				"MinValue": "0",
 				"MaxValue": "98"
@@ -178,7 +178,7 @@
 					"ID": "newTargetValue",
 					"Style": "numeric",
 					"Display": {
-						"Service": "urn:denon-com:serviceId:Receiver1",
+						"Service": "urn:upnp-org:serviceId:RenderingControl1",
 						"Variable": "Volume",
 						"MinValue": "0",
 						"MaxValue": "98",
@@ -188,11 +188,11 @@
 						"Height": 20
 					},
 					"Command": {
-						"Service": "urn:denon-com:serviceId:Receiver1",
-						"Action": "SetVolumeTarget",
+						"Service": "urn:upnp-org:serviceId:RenderingControl1",
+						"Action": "SetVolume",
 						"Parameters": [{
-							"Name": "newTargetValue",
-							"ID": "newTargetValue"
+							"Name": "DesiredVolume",
+							"ID": "DesiredVolume"
 						}]
 					}
 				}, {
@@ -303,7 +303,7 @@
 				}, {
 					"ControlType": "variable",
 					"Display": {
-						"Service": "urn:denon-com:serviceId:Receiver1",
+						"Service": "urn:upnp-org:serviceId:RenderingControl1",
 						"Variable": "Volume",
 						"Top": 240,
 						"Left": 120,
@@ -351,7 +351,7 @@
 						"text": "Unmute"
 					},
 					"Display": {
-						"Service": "urn:micasaverde-com:serviceId:Volume1",
+						"Service": "urn:upnp-org:serviceId:RenderingControl1",
 						"Variable": "Mute",
 						"Value": "0",
 						"Top": 100,
@@ -360,10 +360,10 @@
 						"Height": 20
 					},
 					"Command": {
-						"Service": "urn:micasaverde-com:serviceId:Volume1",
-						"Action": "Mute",
+						"Service": "urn:upnp-org:serviceId:RenderingControl1",
+						"Action": "SetMute",
 						"Parameters": [{
-							"Name": "newTargetValue",
+							"Name": "DesiredMute",
 							"Value": "0"
 						}]
 					}
@@ -374,7 +374,7 @@
 						"text": "mute"
 					},
 					"Display": {
-						"Service": "urn:micasaverde-com:serviceId:Volume1",
+						"Service": "urn:upnp-org:serviceId:RenderingControl1",
 						"Variable": "Mute",
 						"Value": "1",
 						"Top": 130,
@@ -383,10 +383,10 @@
 						"Height": 20
 					},
 					"Command": {
-						"Service": "urn:micasaverde-com:serviceId:Volume1",
-						"Action": "Mute",
+						"Service": "urn:upnp-org:serviceId:RenderingControl1",
+						"Action": "SetMute",
 						"Parameters": [{
-							"Name": "newTargetValue",
+							"Name": "DesiredMute",
 							"Value": "1"
 						}]
 					}
