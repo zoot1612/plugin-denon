@@ -1,4 +1,4 @@
-local VERSION = "0.6"
+local VERSION = "0.71"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -25,6 +25,7 @@ local g_tuner = {}
 local g_xm = {}
 
 local MODEL = {
+	['300'] = {zones = ""},
 	['1000'] = {zones = "2"},
 	['1713'] = {zones = "2"},
 	['1913'] = {zones = "2"},
@@ -82,11 +83,9 @@ end
 ------------------------------------------------------------------------------------------
 function AVRReceiverSend(command)
 
-    local cmd = command
-    local dataSize = string.len(cmd)
-    assert(dataSize <= 135)
-    --luup.sleep(500)
-    if (luup.io.write(cmd) == false) then
+    local dataSize = string.len(command)
+    if(not(assert(dataSize > 0 and dataSize <= 135))) then return false end
+    if (luup.io.write(command) == false) then
         log("AVRReceiverSend: cannot send command " .. command .. " communications error", 1)
         luup.set_failure(true)
         return false
@@ -557,12 +556,17 @@ local function createZones(avr_rec_dev)
 	local detected_model = luup.attr_get("model", avr_rec_dev)
 	local modelNumber = string.match(detected_model, "%d+")
 	local manual_zones = luup.variable_get(DEN_SID, "Zones", avr_rec_dev)
+	local zones = ""
 
 	if (not manual_zones or manual_zones == "") then
-		luup.variable_set(DEN_SID, "Zones",  "none", avr_rec_dev)
+		luup.variable_set(DEN_SID, "Zones",  "", avr_rec_dev)
 	end
 
-	local zones = (MODEL[modelNumber] ~= nil) and MODEL[modelNumber].zones or manual_zones
+	if(manual_zones == "") then
+	  zones = (MODEL[modelNumber] ~= nil) and MODEL[modelNumber].zones or ""
+	else
+	  zones = manual_zones or ""
+	end
 	
 	local setupStatus = luup.variable_get(DEN_SID, "Setup", avr_rec_dev) or ""
 	if (setupStatus == "" or setupStatus == "0") then
@@ -580,10 +584,10 @@ local function createZones(avr_rec_dev)
     luup.chdev.sync(avr_rec_dev,child_devices)
 
 	for k, v in pairs(luup.devices) do
-		if((v.device_num_parent == avr_rec_dev) or (tonumber(avr_rec_dev) == k)) then
-			AVRReceiverSendIntercept(v.id .. "?")
-			AVRReceiverSendIntercept(v.id .. "MU?")
-			debug("createZone: Device number:" .. k .. " Device name:" .. v.id .. ".",1)
+		if(v.device_num_parent == avr_rec_dev) then
+		  AVRReceiverSendIntercept(v.id .. "?")
+		  AVRReceiverSendIntercept(v.id .. "MU?")
+		  debug("createZone: Device number:" .. k .. " Device name:" .. v.id .. ".",1)
 		end
 	end
 
@@ -599,11 +603,10 @@ local function miscSetup(avr_rec_dev)
 
   --[[
 	if(modelNumber ~= "4520") then
-		AVRReceiverSendIntercept("SSTPN ?")  --preset info (tuner)
-		AVRReceiverSendIntercept("SSXPN ?")  --preset info (XM)
+	  AVRReceiverSendIntercept("SSTPN ?")  --preset info (tuner)
+	  AVRReceiverSendIntercept("SSXPN ?")  --preset info (XM)
 	end
-
-			AVRReceiverSendIntercept("NSE")  --Display info ASCII
+	AVRReceiverSendIntercept("NSE")  --Display info ASCII
   ]]--
 
 	return true
