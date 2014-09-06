@@ -1,4 +1,4 @@
-local VERSION = "0.71"
+local VERSION = "0.72"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
