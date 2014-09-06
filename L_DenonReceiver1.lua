@@ -568,7 +568,7 @@ local function createZones(avr_rec_dev)
 	  zones = manual_zones or ""
 	end
 	
-	if(zones ~= "") then AVRReceiverSendIntercept("RR?") end
+	
 	
 	local setupStatus = luup.variable_get(DEN_SID, "Setup", avr_rec_dev) or ""
 	if (setupStatus == "" or setupStatus == "0") then
@@ -647,8 +647,11 @@ function receiverStartup(lul_device)
 		return false, "Device not currently available", "AVR Receiver"
 	end
 
-	AVRReceiverSendIntercept("SSFUN ?")
 	AVRReceiverSendIntercept("SYMO")
+	local modelNumber = string.match((luup.attr_get("model", avr_rec_dev)), "%d+")
+	if(modelNumber ~= 300) then AVRReceiverSendIntercept("RR?") end
+	AVRReceiverSendIntercept("SSFUN ?")
+	
 
 	--main zone initial parameters
 	setInitialParameters(avr_rec_dev)
