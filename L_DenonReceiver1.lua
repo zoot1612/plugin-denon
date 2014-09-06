@@ -568,6 +568,8 @@ local function createZones(avr_rec_dev)
 	  zones = manual_zones or ""
 	end
 	
+	if(zones ~= "") then AVRReceiverSendIntercept("RR?") end
+	
 	local setupStatus = luup.variable_get(DEN_SID, "Setup", avr_rec_dev) or ""
 	if (setupStatus == "" or setupStatus == "0") then
 		luup.attr_set("name", (detected_model or "AVR") .. '_' ..(g_zones[1]), avr_rec_dev)
@@ -592,24 +594,6 @@ local function createZones(avr_rec_dev)
 	end
 
   return true
-
-end
-------------------------------------------------------------------------------------------
---misc
-------------------------------------------------------------------------------------------
-local function miscSetup(avr_rec_dev)
-
-	log("miscSetup: Starting")
-
-  --[[
-	if(modelNumber ~= "4520") then
-	  AVRReceiverSendIntercept("SSTPN ?")  --preset info (tuner)
-	  AVRReceiverSendIntercept("SSXPN ?")  --preset info (XM)
-	end
-	AVRReceiverSendIntercept("NSE")  --Display info ASCII
-  ]]--
-
-	return true
 
 end
 ------------------------------------------------------------------------------------------
@@ -663,7 +647,6 @@ function receiverStartup(lul_device)
 		return false, "Device not currently available", "AVR Receiver"
 	end
 
-	AVRReceiverSendIntercept("RR?")
 	AVRReceiverSendIntercept("SSFUN ?")
 	AVRReceiverSendIntercept("SYMO")
 
