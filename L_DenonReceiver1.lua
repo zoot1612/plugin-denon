@@ -40,7 +40,7 @@ local MODEL = {
     ['3803'] = {zones = "1"},
     ['3805'] = {zones = "1,2"},
     ['3806'] = {zones = "2,3"},
-    ['3808'] = {zones = "2,3"},
+    ['3808'] = {zones = "2,3"},{zoneAutoName},
     ['4000'] = {zones = "2,3"},
     ['4306'] = {zones = "2,3"},
     ['4520'] = {zones = "2,3,4"},
@@ -599,7 +599,7 @@ local function createZones(avr_rec_dev)
     
     for zone_num in zones:gmatch("%d+") do
         local autoName = g_zones[tonumber(zone_num)]
-        zoneName = (detected_model or 'AVR') .. '_' .. autoName
+        zoneName = (detected_model or 'AVR') .. '_' .. (autoName or zone_num)
         DEVICEFILE_DENON_AVR_CONTROL = luup.attr_get("device_file", avr_rec_dev)
         luup.chdev.append(avr_rec_dev,child_devices, "Z" .. zone_num,zoneName,DEVICETYPE_DENON_AVR_CONTROL,DEVICEFILE_DENON_AVR_CONTROL,"I_DenonReceiver1.xml","",false)
         debug("createZone: Zone number:" .. zone_num .. " Zone name:" .. zoneName .. ".",1)
@@ -676,7 +676,9 @@ function receiverStartup(lul_device)
     end
     
 	if(numberOfZones >= 1) then 
-        AVRReceiverSendIntercept("RR?")
+        if modelNumber ~= "1713" then
+            AVRReceiverSendIntercept("RR?")
+        end
         AVRReceiverSendIntercept("PW?")
         createZones(avr_rec_dev)
     else
