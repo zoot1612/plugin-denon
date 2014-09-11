@@ -25,7 +25,7 @@ local g_tuner = {}
 local g_xm = {}
 
 local MODEL = {
-    ['300'] = {zones = ""},
+    ['300'] = {},
     ['1000'] = {zones = "2"},
     ['1713'] = {zones = "2"},
     ['1913'] = {zones = "2"},
@@ -514,6 +514,14 @@ local function setInitialParameters(avr_rec_dev)
     AVRReceiverSendIntercept("MU?")
     AVRReceiverSendIntercept("ZM?")
     AVRReceiverSendIntercept("MV?")
+    
+    for k, v in pairs(luup.devices) do
+        if(v.device_num_parent == avr_rec_dev) then
+          AVRReceiverSendIntercept(v.id .. "?")
+          AVRReceiverSendIntercept(v.id .. "MU?")
+          debug("createZone: Device number:" .. k .. " Device name:" .. v.id .. ".",1)
+        end
+    end
 
 end
 ------------------------------------------------------------------------------------------
@@ -594,7 +602,7 @@ local function createZones(avr_rec_dev)
     
     local setupStatus = luup.variable_get(DEN_SID, "Setup", avr_rec_dev) or ""
     if (setupStatus == "" or setupStatus == "0") then
-        luup.attr_set("name", (detected_model or "AVR") .. '_' ..(g_zones[1]), avr_rec_dev)
+        luup.attr_set("name", (detected_model or "AVR") .. '_' .. ((g_zones[1]) or "main"), avr_rec_dev)
     end
     
     for zone_num in zones:gmatch("%d+") do
@@ -606,14 +614,6 @@ local function createZones(avr_rec_dev)
     end
 
     luup.chdev.sync(avr_rec_dev,child_devices)
-
-    for k, v in pairs(luup.devices) do
-        if(v.device_num_parent == avr_rec_dev) then
-          AVRReceiverSendIntercept(v.id .. "?")
-          AVRReceiverSendIntercept(v.id .. "MU?")
-          debug("createZone: Device number:" .. k .. " Device name:" .. v.id .. ".",1)
-        end
-    end
 
   return true
 
@@ -670,21 +670,15 @@ function receiverStartup(lul_device)
     local numberOfZones = 0
     local modelNumber =  string.match((luup.attr_get("model", avr_rec_dev)), "%d+")
     
-    if MODEL[modelNumber] ~= nil then
+    if MODEL[modelNumber].zones ~= nil then
         local zones = MODEL[modelNumber].zones
         for zones in zones:gmatch("%d+") do numberOfZones = numberOfZones + 1 end
-    end
-    
-	if(numberOfZones >= 1) then 
-        if modelNumber ~= "1713" then
-            AVRReceiverSendIntercept("RR?")
-        end
         AVRReceiverSendIntercept("PW?")
         createZones(avr_rec_dev)
     else
         AVRReceiverSendIntercept("PW?")    
     end
-    
+
     setInitialParameters(avr_rec_dev)
 
     local setupStatus = luup.variable_get(DEN_SID, "Setup", avr_rec_dev) or ""
