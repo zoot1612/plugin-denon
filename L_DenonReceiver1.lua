@@ -35,6 +35,7 @@ local MODEL = {
     ['2803'] = {zones = "1"},
     ['2805'] = {zones = "2"},
     ['2807'] = {zones = "2"},
+    ['3000'] = {zones = "2"},
     ['3312'] = {zones = "2,3"},
     ['3313'] = {zones = "2,3"},
     ['3803'] = {zones = "1"},
@@ -600,11 +601,6 @@ local function createZones(avr_rec_dev)
       zones = manual_zones or ""
     end
     
-    local setupStatus = luup.variable_get(DEN_SID, "Setup", avr_rec_dev) or ""
-    if (setupStatus == "" or setupStatus == "0") then
-        luup.attr_set("name", (detected_model or "AVR") .. '_' .. ((g_zones[1]) or "main"), avr_rec_dev)
-    end
-    
     for zone_num in zones:gmatch("%d+") do
         local autoName = g_zones[tonumber(zone_num)]
         zoneName = (detected_model or 'AVR') .. '_' .. (autoName or zone_num)
@@ -668,9 +664,11 @@ function receiverStartup(lul_device)
     AVRReceiverSendIntercept("SYMO")
          
     local numberOfZones = 0
-    local modelNumber =  string.match((luup.attr_get("model", avr_rec_dev)), "%d+")
     
-    if MODEL[modelNumber].zones ~= nil then
+    local detected_model = luup.attr_get("model", avr_rec_dev)
+    local modelNumber =  string.match(detected_model, "%d+")
+    
+    if MODEL[modelNumber] ~= nil then
         local zones = MODEL[modelNumber].zones
         for zones in zones:gmatch("%d+") do numberOfZones = numberOfZones + 1 end
         AVRReceiverSendIntercept("PW?")
@@ -683,7 +681,7 @@ function receiverStartup(lul_device)
 
     local setupStatus = luup.variable_get(DEN_SID, "Setup", avr_rec_dev) or ""
     if (setupStatus == "" or setupStatus == "0") then
-        luup.attr_set("name", (detected_model or "AVR") .. '_' ..(g_zones[1]or ""), avr_rec_dev)
+        luup.attr_set("name", (detected_model or "AVR") .. '_' .. ((g_zones[1]) or "main"), avr_rec_dev)
         local status = cj.create_static_json(g_sourceName, avr_rec_dev)
         if (status == true) then
             luup.variable_set(DEN_SID, "Setup",  "1", avr_rec_dev)
