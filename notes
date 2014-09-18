@@ -56,8 +56,12 @@ Action: Input1 - Input10
 --
 Changed naming to main zone that once initial setup is done you can change
 the name and it will stick, if the setup is run again this name will be reset.
-
-
+----------------------------------------------------------------
+Release 0.76
+Removed all non documented commands.
+Removed auto naming as it relied on undocumented commands and did not work across all AVR's.
+['300'] = {} (rvendrame)
+['3000'] = {zones = "2"} (huveu)
 ----------------------------------------------------------------
 Release 0.5
 Bug: S_DenonReceiver1.xml. The line 90 should be "<name>Command</name>" and not "<name>newCommand</name>" (Marciorschneider)
