@@ -57,6 +57,9 @@ Action: Input1 - Input10
 Changed naming to main zone that once initial setup is done you can change
 the name and it will stick, if the setup is run again this name will be reset.
 ----------------------------------------------------------------
+Release 0.77
+['400'] = {zones = "2"} (Fred S)
+----------------------------------------------------------------
 Release 0.76
 Removed all non documented commands.
 Removed auto naming as it relied on undocumented commands and did not work across all AVR's.

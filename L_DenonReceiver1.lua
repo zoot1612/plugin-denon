@@ -1,4 +1,4 @@
-local VERSION = "0.76"
+local VERSION = "0.77"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -26,6 +26,7 @@ local g_xm = {}
 
 local MODEL = {
     ['300'] = {},
+    ['400'] = {zones = "2"},
     ['1000'] = {zones = "2"},
     ['1713'] = {zones = "2"},
     ['1913'] = {zones = "2"},
