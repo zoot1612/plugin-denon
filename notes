@@ -57,6 +57,9 @@ Action: Input1 - Input10
 Changed naming to main zone that once initial setup is done you can change
 the name and it will stick, if the setup is run again this name will be reset.
 ----------------------------------------------------------------
+Release 0.80
+Added re-connect if luup.io fails.
+----------------------------------------------------------------
 Release 0.78	
 ['2112'] = {zones = "2"} (dbeck52)
 ----------------------------------------------------------------

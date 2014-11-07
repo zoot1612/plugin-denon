@@ -1,4 +1,4 @@
-local VERSION = "0.79"
+local VERSION = "0.80"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -67,7 +67,7 @@ local function log (text,level)
 
 end
 ------------------------------------------------------------------------------------------
-function debug (text,level)
+local function debug (text,level)
 
   if (DEBUG_MODE == true) then
     log(text,level or 1)
@@ -98,13 +98,13 @@ function clearStatusMessage()
 
 end
 ------------------------------------------------------------------------------------------
-function trim(s)
+local function trim(s)
 
   return s:match "^%s*(.-)%s*$"
 
 end
 ------------------------------------------------------------------------------------------
-function listTable(table)
+local function listTable(table)
 
     for k, v in pairs(table) do
         debug('listTable: key: _' .. k .. ' value: _' .. v .. '.')
@@ -112,7 +112,7 @@ function listTable(table)
 
 end
 ------------------------------------------------------------------------------------------
-function normaliseVolume(device, volume)
+local function normaliseVolume(device, volume)
 
     quant,frac = math.modf(volume)
     frac = ((device == avr_rec_dev) and (string.format("%.1f", frac) == "0.5")) and "5" or ""
@@ -649,20 +649,21 @@ end
 ------------------------------------------------------------------------------------------
 --Connection check
 ------------------------------------------------------------------------------------------
-local function checkConnection()
+function checkConnection()
 
-  if (luup.io.is_connected(avr_rec_dev) == false) then
-    log( "io.is_connected is false - AVR no longer connected, attempt to reconnect")
-    status = connectionType()
-	if (status == true) then
-		log( "Re-connect attempt successful")
-		luup.variable_set("urn:micasaverde-com:serviceId:HaDevice1","CommFailure","0", avr_rec_dev)
-		clearStatusMessage()
+	if (luup.io.is_connected(avr_rec_dev) == false) then
+		debug( "io.is_connected is false - AVR no longer connected, attempt to reconnect")
+		status = connectionType()
+			if (status == true) then
+				debug( "Re-connect attempt successful")
+				luup.variable_set("urn:micasaverde-com:serviceId:HaDevice1","CommFailure","0", avr_rec_dev)
+				clearStatusMessage()
+			end
+			task("Re-connect attempt un-successful", TASK_ERROR_PERM)
+	else
+		debug( "Connection currently OK",1)
 	end
-	task("Re-connect attempt un-successful", TASK_ERROR_PERM)
-	luup.call_timer("checkConnection", 1, "15m", "", "")
-  end
-
+	luup.call_timer("checkConnection", 1, POLL, "", "")
 end
 ------------------------------------------------------------------------------------------
 --Connection Setup
@@ -743,8 +744,9 @@ function receiverStartup(lul_device)
         luup.variable_set(DEN_SID, "PollFreq",  POLL, avr_rec_dev)
     end
 
-	luup.call_delay("checkConnection", 60, "", "")
---luup.variable_set(DEN_SID,"Source","Input"..source,msgZone)
+	luup.call_delay("checkConnection", 60, "")
+
+	--luup.variable_set(DEN_SID,"Source","Input"..source,msgZone)
     --luup.register_handler("callbackHandler", "tuner")
     --luup.register_handler("callbackHandler", "xm")
 
