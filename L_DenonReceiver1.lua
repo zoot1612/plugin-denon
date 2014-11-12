@@ -67,7 +67,7 @@ local function log (text,level)
 
 end
 ------------------------------------------------------------------------------------------
-local function debug (text,level)
+function debug (text,level)
 
   if (DEBUG_MODE == true) then
     log(text,level or 1)
