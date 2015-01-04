@@ -1,4 +1,4 @@
-local VERSION = "0.81"
+local VERSION = "1.2"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -664,6 +664,7 @@ function checkConnection()
 		debug( "Connection currently OK",1)
 	end
 	luup.call_timer("checkConnection", 1, POLL, "", "")
+	
 end
 ------------------------------------------------------------------------------------------
 --Connection Setup
@@ -671,6 +672,7 @@ end
 local function connectionType()
 
   local ip = luup.devices[avr_rec_dev].ip or ""
+  
   if (ip == "") then
     log("connectionType: Running on Serial.")
   else
@@ -679,12 +681,14 @@ local function connectionType()
       port = (not port or port == "") and 23 or tonumber(port, 10)
       log("connectionType: ipAddress = "..(ipAddress or "nil")..", port = "..(port or "nil")..".")
       luup.io.open(avr_rec_dev, ipAddress, port)
-      if( luup.io.is_connected(avr_rec_dev)==false ) then
-  return false
-      end
     end
-  return true
   end
+      
+  if( luup.io.is_connected(avr_rec_dev)==false ) then
+    return false
+  end
+  
+  return true
 
 end
 ------------------------------------------------------------------------------------------
