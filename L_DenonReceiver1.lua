@@ -28,6 +28,7 @@ local MODEL = {
     ['300'] = {},
     ['400'] = {zones = "2"},
     ['1000'] = {zones = "2"},
+    ['1603'] = {zones = "2"},                  -- Marantz NR1603USA
     ['1713'] = {zones = "2"},
     ['1913'] = {zones = "2"},
     ['2000'] = {zones = "2"},
@@ -43,7 +44,7 @@ local MODEL = {
     ['3803'] = {zones = "1"},
     ['3805'] = {zones = "1,2"},
     ['3806'] = {zones = "2,3"},
-    ['3808'] = {zones = "2,3"},{zoneAutoName},
+    ['3808'] = {zones = "2,3"},{zoneAutoName}, --not used
     ['4000'] = {zones = "2,3"},
     ['4306'] = {zones = "2,3"},
     ['4520'] = {zones = "2,3,4"},
@@ -664,7 +665,7 @@ function checkConnection()
 		debug( "Connection currently OK",1)
 	end
 	luup.call_timer("checkConnection", 1, POLL, "", "")
-	
+
 end
 ------------------------------------------------------------------------------------------
 --Connection Setup
@@ -672,7 +673,7 @@ end
 local function connectionType()
 
   local ip = luup.devices[avr_rec_dev].ip or ""
-  
+
   if (ip == "") then
     log("connectionType: Running on Serial.")
   else
@@ -683,11 +684,11 @@ local function connectionType()
       luup.io.open(avr_rec_dev, ipAddress, port)
     end
   end
-      
+
   if( luup.io.is_connected(avr_rec_dev)==false ) then
     return false
   end
-  
+
   return true
 
 end
