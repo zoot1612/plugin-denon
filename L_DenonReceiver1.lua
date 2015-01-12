@@ -44,7 +44,7 @@ local MODEL = {
     ['3803'] = {zones = "1"},
     ['3805'] = {zones = "1,2"},
     ['3806'] = {zones = "2,3"},
-    ['3808'] = {zones = "2,3"},{zoneAutoName}, --not used
+    ['3808'] = {zones = "2,3"},{zoneAutoName}, -- autoName not used
     ['4000'] = {zones = "2,3"},
     ['4306'] = {zones = "2,3"},
     ['4520'] = {zones = "2,3,4"},
