@@ -160,8 +160,8 @@ function setVolume(device, volume)
     local zone = findZone(device)
     local prefix = (zone ~= "ZM") and zone or "MV"
     local current_volume = tonumber(luup.variable_get(REN_SID,"Volume",avr_rec_dev),10)
-
-    if ((tonumber(volume)) ~= nil) then
+    debug("setVolume: current volume" .. current_volume .. " new volume:" .. volume .. ".")
+        if ((tonumber(volume)) ~= nil) then
         volume = normaliseVolume(device, tonumber(volume))
         AVRReceiverSend(prefix .. volume)
     else

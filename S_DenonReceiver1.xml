@@ -5,29 +5,7 @@
     <minor>0</minor>
   </specVersion>
   <serviceStateTable>
-<!--
-     <stateVariable sendEvents="yes">
-      <name>Volume</name>
-      <datatype>i4</datatype>
-    </stateVariable>
 
-    <stateVariable sendEvents="yes">
-      <name>VolumeDecibel</name>
-      <datatype>i4</datatype>
-    </stateVariable>
-
-    <stateVariable sendEvents="no">
-      <name>volType</name>
-      <datatype>string</datatype>
-            <defaultValue>0</defaultValue>
-    </stateVariable>
-
-    <stateVariable sendEvents="no">
-      <name>fade</name>
-      <datatype>boolean</datatype>
-            <defaultValue>0</defaultValue>
-    </stateVariable>
--->
     <stateVariable sendEvents="yes">
       <name>Input</name>
       <datatype>string</datatype>
@@ -58,28 +36,7 @@
   </serviceStateTable>
   
   <actionList>
-<!--
-    <action>
-      <name>SetVolumeTarget</name>
-      <argumentList>
-        <argument>
-          <name>newTargetValue</name>
-          <direction>in</direction>
-                    <relatedStateVariable>Volume</relatedStateVariable>
-        </argument>
-        <argument>
-                    <name>Fade</name>
-                    <direction>in</direction>
-                    <relatedStateVariable>fade</relatedStateVariable>
-        </argument>
-        <argument>
-                    <name>VolType</name>
-                    <direction>in</direction>
-                    <relatedStateVariable>volType</relatedStateVariable>
-        </argument>
-      </argumentList>
-    </action>
--->
+
     <action>
       <name>SetInputTarget</name>
       <argumentList>
@@ -101,38 +58,7 @@
         </argument>
       </argumentList>
     </action>
-<!--
-    <action>
-      <name>Input1</name>
-    </action>
-    <action>
-      <name>Input2</name>
-    </action>
-    <action>
-      <name>Input3</name>
-    </action>
-    <action>
-      <name>Input4</name>
-    </action>
-    <action>
-      <name>Input5</name>
-    </action>
-    <action>
-      <name>Input6</name>
-    </action>
-    <action>
-      <name>Input7</name>
-    </action>
-    <action>
-      <name>Input8</name>
-    </action>
-    <action>
-      <name>Input9</name>
-    </action>
-    <action>
-      <name>Input10</name>
-    </action>
--->
+
     <action>
       <name>Input11</name>
     </action>

@@ -175,7 +175,7 @@
 					"top": "0",
 					"left": "0",
 					"ControlHeader": "1",
-					"ID": "newTargetValue",
+					"ID": "NewDesiredVolume",
 					"Style": "numeric",
 					"Display": {
 						"Service": "urn:upnp-org:serviceId:RenderingControl1",
@@ -192,7 +192,7 @@
 						"Action": "SetVolume",
 						"Parameters": [{
 							"Name": "DesiredVolume",
-							"ID": "DesiredVolume"
+							"ID": "NewDesiredVolume"
 						}]
 					}
 				}, {
