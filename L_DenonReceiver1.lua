@@ -1,4 +1,4 @@
-local VERSION = "1.22"
+local VERSION = "1.23"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -115,9 +115,9 @@ end
 ------------------------------------------------------------------------------------------
 local function normaliseVolume(device, volume)
 
-    local current_volume = tonumber(luup.variable_get(REN_SID,"Volume",avr_rec_dev),10)
-	MIN_VOL = (device == avr_rec_dev) and MIN_VOL or MIN_VOL_ZONE
-	volume = (volume >= MIN_VOL and volume <= MAX_VOL) and volume or current_volume
+  local current_volume = tonumber(luup.variable_get(REN_SID,"Volume",device),10)
+  MIN_VOL = (device == avr_rec_dev) and MIN_VOL or MIN_VOL_ZONE
+  volume = (volume >= MIN_VOL and volume <= MAX_VOL) and volume or current_volume
 
     quant,frac = math.modf(volume)
     frac = ((device == avr_rec_dev) and (string.format("%.1f", frac) == "0.5")) and "5" or ""
