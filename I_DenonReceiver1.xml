@@ -1,11 +1,13 @@
+
+
 <?xml version="1.0" encoding="UTF-8"?>
 <implementation>
-    <settings>
-        <protocol>cr</protocol>
-    </settings>
-    <files>L_DenonReceiver1.lua</files>
-    <incoming>
-        <lua>local dataLength = 0
+  <settings>
+    <protocol>cr</protocol>
+  </settings>
+  <files>L_DenonReceiver1.lua</files>
+  <incoming>
+    <lua>local dataLength = 0
         local data = tostring(lul_data)
         dataLength = string.len(data)
         if (dataLength ~= "") then
@@ -183,6 +185,11 @@
             <serviceId>urn:upnp-org:serviceId:RenderingControl1</serviceId>
             <name>SetVolume</name>
             <run>setVolume(lul_device, lul_settings.DesiredVolume)</run>
+        </action>
+        <action>
+            <serviceId>urn:upnp-org:serviceId:RenderingControl1</serviceId>
+            <name>SetVolumeDB</name>
+            <run>setVolumeDB(lul_device, lul_settings.DesiredVolume)</run>
         </action>
     </actionList>
 </implementation>

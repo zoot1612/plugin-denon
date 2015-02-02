@@ -1,4 +1,4 @@
-local VERSION = "1.21"
+local VERSION = "1.22"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -13,9 +13,9 @@ local REN_SID = "urn:upnp-org:serviceId:RenderingControl1"
 local DEVICETYPE_DENON_AVR_CONTROL = "urn:schemas-denon-com:device:receiver:1"
 local DEVICEFILE_DENON_AVR_CONTROL = "D_DenonReceiver1.xml"
 --
-local MAX_VOL = 98
+local MAX_VOL = 98.5
 local MIN_VOL = 0
-local MIN_VOL_ZONE = "10"
+local MIN_VOL_ZONE = 10
 local INCR = 0.5
 local DEBUG_MODE = true
 local POLL = "5m"
@@ -115,9 +115,14 @@ end
 ------------------------------------------------------------------------------------------
 local function normaliseVolume(device, volume)
 
+    local current_volume = tonumber(luup.variable_get(REN_SID,"Volume",avr_rec_dev),10)
+	MIN_VOL = (device == avr_rec_dev) and MIN_VOL or MIN_VOL_ZONE
+	volume = (volume >= MIN_VOL and volume <= MAX_VOL) and volume or current_volume
+
     quant,frac = math.modf(volume)
     frac = ((device == avr_rec_dev) and (string.format("%.1f", frac) == "0.5")) and "5" or ""
-    if ((device ~= avr_rec_dev) and (tonumber(quant) <= tonumber(MIN_VOL_ZONE))) then quant = MIN_VOL_ZONE end
+    --if ((device ~= avr_rec_dev) and (tonumber(quant) <= MIN_VOL_ZONE)) then quant = MIN_VOL_ZONE end
+	debug("setVolume: current volume: " .. current_volume .. " new volume: " .. volume .. ".")
     return (string.format("%02i", quant)..frac)
 
 end
@@ -159,13 +164,22 @@ function setVolume(device, volume)
 
     local zone = findZone(device)
     local prefix = (zone ~= "ZM") and zone or "MV"
-    local current_volume = tonumber(luup.variable_get(REN_SID,"Volume",avr_rec_dev),10)
-    debug("setVolume: current volume" .. current_volume .. " new volume:" .. volume .. ".")
         if ((tonumber(volume)) ~= nil) then
         volume = normaliseVolume(device, tonumber(volume))
         AVRReceiverSend(prefix .. volume)
     else
         volume = (volume == "UP") and "UP" or "DOWN"
+        AVRReceiverSend(prefix .. volume)
+    end
+
+end
+------------------------------------------------------------------------------------------
+function setVolumeDB(device, volumeDB)
+
+    local zone = findZone(device)
+    local prefix = (zone ~= "ZM") and zone or "MV"	local volume = volumeDB + 80
+        if ((tonumber(volume)) ~= nil) then
+        volume = normaliseVolume(device, tonumber(volume))
         AVRReceiverSend(prefix .. volume)
     end
 
