@@ -149,6 +149,22 @@ function setMute(device, mute)
 
 end
 ------------------------------------------------------------------------------------------
+function getMute(device)
+
+    local zone = findZone(device)
+    local prefix = (zone ~= "ZM") and zone or ""
+    AVRReceiverSend(prefix .. "MU?")
+
+end
+------------------------------------------------------------------------------------------
+function getTarget(device)
+
+    local zone = findZone(device)
+    local prefix = (zone ~= "ZM") and zone or "ZM"
+    AVRReceiverSend(prefix .. "?")
+
+end
+------------------------------------------------------------------------------------------
 function setMasterPower(status)
 
     for k, v in pairs(luup.devices) do
@@ -177,11 +193,20 @@ end
 function setVolumeDB(device, volumeDB)
 
     local zone = findZone(device)
-    local prefix = (zone ~= "ZM") and zone or "MV"	local volume = volumeDB + 80
-        if ((tonumber(volume)) ~= nil) then
+    local prefix = (zone ~= "ZM") and zone or "MV"
+	local volume = volumeDB + 80
+	if ((tonumber(volume)) ~= nil) then
         volume = normaliseVolume(device, tonumber(volume))
         AVRReceiverSend(prefix .. volume)
     end
+
+end
+------------------------------------------------------------------------------------------
+function getVolume(device)
+
+    local zone = findZone(device)
+    local prefix = (zone ~= "ZM") and zone or "MV"
+	AVRReceiverSend(prefix .. '?')
 
 end
 ------------------------------------------------------------------------------------------
