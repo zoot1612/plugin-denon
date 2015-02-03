@@ -15,7 +15,7 @@
 				"Service": "urn:upnp-org:serviceId:RenderingControl1",
 				"Variable": "Volume",
 				"MinValue": "0",
-				"MaxValue": "98"
+				"MaxValue": "100"
 			},
 			"doc_url": {
 				"doc_language": 1,

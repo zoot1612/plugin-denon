@@ -119,11 +119,10 @@ local function normaliseVolume(device, volume)
   MIN_VOL = (device == avr_rec_dev) and MIN_VOL or MIN_VOL_ZONE
   volume = (volume >= MIN_VOL and volume <= MAX_VOL) and volume or current_volume
 
-    quant,frac = math.modf(volume)
-    frac = ((device == avr_rec_dev) and (string.format("%.1f", frac) == "0.5")) and "5" or ""
-    --if ((device ~= avr_rec_dev) and (tonumber(quant) <= MIN_VOL_ZONE)) then quant = MIN_VOL_ZONE end
-	debug("setVolume: current volume: " .. current_volume .. " new volume: " .. volume .. ".")
-    return (string.format("%02i", quant)..frac)
+  quant,frac = math.modf(volume)
+  frac = ((device == avr_rec_dev) and (string.format("%.1f", frac) == "0.5")) and "5" or ""
+  debug("setVolume: current volume: " .. current_volume .. " new volume: " .. volume .. ".")
+  return (string.format("%02i", quant)..frac)
 
 end
 ------------------------------------------------------------------------------------------
