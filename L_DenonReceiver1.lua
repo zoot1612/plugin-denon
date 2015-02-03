@@ -194,8 +194,8 @@ function setVolumeDB(device, volumeDB)
 
     local zone = findZone(device)
     local prefix = (zone ~= "ZM") and zone or "MV"
-	local volume = volumeDB + 80
-	if ((tonumber(volume)) ~= nil) then
+    local volume = volumeDB + 80
+    if ((tonumber(volume)) ~= nil) then
         volume = normaliseVolume(device, tonumber(volume))
         AVRReceiverSend(prefix .. volume)
     end
@@ -206,7 +206,7 @@ function getVolume(device)
 
     local zone = findZone(device)
     local prefix = (zone ~= "ZM") and zone or "MV"
-	AVRReceiverSend(prefix .. '?')
+    AVRReceiverSend(prefix .. '?')
 
 end
 ------------------------------------------------------------------------------------------
@@ -691,19 +691,19 @@ end
 ------------------------------------------------------------------------------------------
 function checkConnection()
 
-	if (luup.io.is_connected(avr_rec_dev) == false) then
-		debug( "io.is_connected is false - AVR no longer connected, attempt to reconnect")
-		status = connectionType()
-			if (status == true) then
-				debug( "Re-connect attempt successful")
-				luup.variable_set("urn:micasaverde-com:serviceId:HaDevice1","CommFailure","0", avr_rec_dev)
-				clearStatusMessage()
-			end
-			task("Re-connect attempt un-successful", TASK_ERROR_PERM)
-	else
-		debug( "Connection currently OK",1)
-	end
-	luup.call_timer("checkConnection", 1, POLL, "", "")
+    if (luup.io.is_connected(avr_rec_dev) == false) then
+        debug( "io.is_connected is false - AVR no longer connected, attempt to reconnect")
+        status = connectionType()
+            if (status == true) then
+                debug( "Re-connect attempt successful")
+                luup.variable_set("urn:micasaverde-com:serviceId:HaDevice1","CommFailure","0", avr_rec_dev)
+                clearStatusMessage()
+            end
+            task("Re-connect attempt un-successful", TASK_ERROR_PERM)
+    else
+        debug( "Connection currently OK",1)
+    end
+    luup.call_timer("checkConnection", 1, POLL, "", "")
 
 end
 ------------------------------------------------------------------------------------------
