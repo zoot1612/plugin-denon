@@ -1,4 +1,4 @@
-local VERSION = "1.23"
+local VERSION = "1.24"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -578,7 +578,6 @@ end
 ------------------------------------------------------------------------------------------
 local function setInitialParameters(avr_rec_dev)
 
-    luup.variable_set(DEN_SID,"Version",VERSION,avr_rec_dev)
     AVRReceiverSendIntercept("MS?")
     AVRReceiverSendIntercept("SI?")
     AVRReceiverSendIntercept("SV?")
@@ -770,10 +769,14 @@ function receiverStartup(lul_device)
     else
         AVRReceiverSendIntercept("PW?")
     end
-
-    setInitialParameters(avr_rec_dev)
-
+    
     local setupStatus = luup.variable_get(DEN_SID, "Setup", avr_rec_dev) or ""
+    local version = luup.variable_get(DEN_SID,"Version",avr_rec_dev) or ""
+    if(tonumber(VERSION) > tonumber(version)) then setupStatus = "0" end
+    luup.variable_set(DEN_SID,"Version",VERSION,avr_rec_dev)
+    
+    setInitialParameters(avr_rec_dev)
+        
     if (setupStatus == "" or setupStatus == "0") then
         luup.attr_set("name", (detected_model or "AVR") .. '_' .. ((g_zones[1]) or "main"), avr_rec_dev)
         local status = cj.create_static_json(g_sourceName, avr_rec_dev)

@@ -23,7 +23,7 @@ function create_static_json(input_table, avr_dev)
 	local remote_file_json = 'D_' .. file_name .. '1.json'
 	local remote_file_xml = 'D_' .. file_name .. '1.xml'
 	local remote_service_file = 'S_RenderingControl1.xml'
-	local remote_file_location = 'http://code.mios.com/trac/mios_commonupnpavpluginfiles/export/8/S_RenderingControl1.xml'
+	local remote_file_location = 'http://code.mios.com/trac/mios_commonupnpavpluginfiles/browser/S_RenderingControl1.xml?format=txt'
 
 	if (file_exists(remote_path .. remote_file_json .. '.lzo')== true) then
 		debug('Static json file ' .. remote_path .. remote_file_json .. ' exists, decompress.')
@@ -702,20 +702,25 @@ function create_static_json(input_table, avr_dev)
 
 	outf:close()
 
-
+--[[
 	if (file_exists(remote_path .. remote_service_file .. '.lzo')== false) then
 		debug('Service file for rendering control has not been installed')
-		local status, result = luup.inet.wget(remote_file_location, 5)
+		local status, result = luup.inet.wget(remote_file_location)
 		--os.execute( 'wget ' .. remote_file_location .. ' -O '..remote_path .. remote_service_file)
+		
 		if (status == 0) then
 		  local srvfile = io.open( remote_path .. remote_service_file, 'w')
 		  debug(result)
 		  srvfile:write(result)
 		  srvfile:close()
+		  os.execute( 'pluto-lzo c '.. remote_path .. remote_service_file  .. ' ' .. remote_path .. remote_service_file .. '.lzo')
+		  --os.execute( 'rm '.. remote_path .. remote_service_file)
 		else
 		  return false
 		end
+
 	end
+]]--
 
 	if (file_exists(remote_path .. template_file .. '.lzo')== true) then
 		debug('Device file template ' .. remote_path .. template_file .. ' exists, decompress.')
@@ -756,12 +761,12 @@ function create_static_json(input_table, avr_dev)
 	os.execute( 'pluto-lzo c '.. remote_path .. remote_file_xml  .. ' ' .. remote_path .. remote_file_xml .. '.lzo')
 	os.execute( 'pluto-lzo c '.. remote_path .. remote_file_json .. ' ' .. remote_path .. remote_file_json ..'.lzo')
 	os.execute( 'pluto-lzo c '.. remote_path .. template_file    .. ' ' .. remote_path .. template_file ..   '.lzo')
-	os.execute( 'pluto-lzo c '.. remote_path .. remote_service_file  .. ' ' .. remote_path .. remote_service_file .. '.lzo')
+
 
 	os.execute( 'rm '.. remote_path .. remote_file_json)
 	os.execute( 'rm '.. remote_path .. remote_file_xml)
 	os.execute( 'rm '.. remote_path .. template_file)
-	os.execute( 'rm '.. remote_path .. remote_service_file)
+	
 
 	luup.call_action("urn:micasaverde-com:serviceId:HomeAutomationGateway1", "Reload", {}, 0)
 

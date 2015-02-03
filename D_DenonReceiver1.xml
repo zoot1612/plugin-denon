@@ -56,7 +56,7 @@
       <service>
         <serviceType>urn:upnp-org:serviceId:RenderingControl:1</serviceType>
         <serviceId>urn:upnp-org:serviceId:RenderingControl1</serviceId>
-        <SCPDURL>S_DLNARenderingControl1.xml</SCPDURL>
+        <SCPDURL>S_DenonRenderingControl1.xml</SCPDURL>
       </service>
       <service>
         <serviceType>urn:micasaverde-com:service:Tuning:1</serviceType>
