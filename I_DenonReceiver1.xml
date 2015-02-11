@@ -125,6 +125,17 @@
         </action>
         <action>
             <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+            <name>GetInputTarget</name>
+            <run>
+            getInput(lul_device)
+            --luup.sleep(500)
+            --local input = luup.variable_get(DEN_SID,"Input", lul_device)
+            --local source = luup.variable_get(DEN_SID,"Source", lul_device)
+				   -- return input .. " = " .. source
+            </run>
+        </action>
+        <action>
+            <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
             <name>SendCommand</name>
             <run>AVRReceiverSend(lul_settings.Command)</run>
         </action>
@@ -152,19 +163,25 @@
         </action>
         <action>
             <serviceId>urn:upnp-org:serviceId:SwitchPower1</serviceId>
+            <name>GetStatus</name>
+            <run>
+				    GetStatus(lul_device)
+				    --luup.sleep(500)
+				    --return luup.variable_get(SWP_SID, "Status", lul_device)
+			      </run>
+        </action>
+        <action>
+            <serviceId>urn:upnp-org:serviceId:SwitchPower1</serviceId>
             <name>GetTarget</name>
             <run>
-				    getTarget(lul_device)
-				    luup.sleep(500)
-				    local currentTarget = luup.variable_get(SWP_SID,SWP_STATUS,lul_device)
-				    return currentTarget
+				    GetStatus(lul_device)
 			      </run>
         </action>
         <action>
             <serviceId>urn:micasaverde-com:serviceId:HaDevice1</serviceId>
             <name>ToggleState</name>
             <run>
-            local value = luup.variable_get(SWP_SID,SWP_STATUS,lul_device)
+            local value = luup.variable_get(SWP_SID, "Status", lul_device)
 			      luup.call_action(SWP_SID,SWP_SET_TARGET,'newTargetValue=' .. ((value=='1') and '0' or '1') , lul_device)
 			      </run>
         </action>
@@ -181,9 +198,6 @@
             <name>GetMute</name>
             <run>
 				    getMute(lul_device)
-				    luup.sleep(500)
-				    local currentMute = luup.variable_get(REN_SID, "Mute", lul_device)
-				    return currentMute
 			      </run>
         </action>
         <action>
@@ -212,9 +226,6 @@
             <name>GetVolume</name>
             <run>
 				    getVolume(lul_device)
-				    luup.sleep(500)
-				    local currentVolume = luup.variable_get(REN_SID, "Volume", lul_device)
-				    return currentVolume
 			      </run>
         </action>
         <action>
@@ -227,9 +238,13 @@
             <name>GetVolumeDB</name>
             <run>
 				    getVolume(lul_device)
-				    luup.sleep(500)
-				    local currentVolumeDB = luup.variable_get(REN_SID, "VolumeDB", lul_device)
-				    return currentVolumeDB
+			      </run>
+        </action>
+        <action>
+            <serviceId>urn:upnp-org:serviceId:RenderingControl1</serviceId>
+            <name>RampToVolume</name>
+            <run>
+				    rampToVolume(lul_device, lul_settings)
 			      </run>
         </action>
     </actionList>
