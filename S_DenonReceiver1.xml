@@ -47,6 +47,17 @@
         </argument>
       </argumentList>
     </action>
+    
+    <action>
+      <name>GetInputTarget</name>
+      <argumentList>
+        <argument>
+          <name>CurrentInput</name>
+          <direction>out</direction>
+                    <relatedStateVariable>Input</relatedStateVariable>
+        </argument>
+      </argumentList>
+    </action>
 
     <action>
       <name>SendCommand</name>
