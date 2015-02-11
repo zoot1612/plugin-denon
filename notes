@@ -22,6 +22,14 @@ Ethernet connection details:-
 Under the "Advanced" tab set the "Setup" to "0" then restart the luup engine.
 This will rewrite the json and xml device files.
 ----------------------------------------------------------------
+Examples
+http://<IPAddress>:3480/data_request?id=action&output_format=xml&DeviceNum<DeviceNumber>&serviceId=urn:denon-com:serviceId:Receiver1&action=GetInputTarget
+http://<IPAddress>:3480/data_request?id=action&output_format=xml&DeviceNum<DeviceNumber>&serviceId=urn:upnp-org:serviceId:SwitchPower1&action=GetStatus
+http://<IPAddress>:3480/data_request?id=action&output_format=xml&DeviceNum<DeviceNumber>&serviceId=urn:upnp-org:serviceId:SwitchPower1&action=GetTarget
+http://<IPAddress>:3480/data_request?id=action&output_format=xml&DeviceNum<DeviceNumber>&serviceId=urn:upnp-org:serviceId:RenderingControl1&action=GetMute
+http://<IPAddress>:3480/data_request?id=action&output_format=xml&DeviceNum<DeviceNumber>&serviceId=urn:upnp-org:serviceId:RenderingControl1&action=GetVolume
+http://<IPAddress>:3480/data_request?id=action&output_format=xml&DeviceNum<DeviceNumber>&serviceId=urn:upnp-org:serviceId:RenderingControl1&action=GetVolumeDB
+----------------------------------------------------------------
 Release 0.6
 This release will probably break a few things: -
 --
