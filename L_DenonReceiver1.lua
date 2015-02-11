@@ -1,4 +1,4 @@
-local VERSION = "1.24"
+local VERSION = "1.25"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -833,9 +833,11 @@ function receiverStartup(lul_device)
     end
     
     local setupStatus = luup.variable_get(DEN_SID, "Setup", avr_rec_dev) or ""
-    local version = luup.variable_get(DEN_SID,"Version",avr_rec_dev) or ""
-    if(tonumber(VERSION) > tonumber(version)) then setupStatus = "0" end
-    luup.variable_set(DEN_SID,"Version",VERSION,avr_rec_dev)
+    local version = luup.variable_get(DEN_SID,"Version",avr_rec_dev) or 0
+    if(tonumber(VERSION) > tonumber(version)) then
+      setupStatus = "0"
+      luup.variable_set(DEN_SID,"Version",VERSION,avr_rec_dev)
+    end
     
     setInitialParameters(avr_rec_dev)
         
