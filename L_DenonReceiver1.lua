@@ -17,6 +17,8 @@ local MAX_VOL = 98.5
 local MIN_VOL = 0
 local MIN_VOL_ZONE = 10
 local INCR = 0.5
+local DEFAULT_VOLUME = 25
+local DEFAULT_RAMP_TIME = 17
 local DEBUG_MODE = true
 local POLL = "5m"
 local g_sourceName = {}
@@ -156,7 +158,7 @@ function getMute(device)
 
 end
 ------------------------------------------------------------------------------------------
-function getTarget(device)
+function GetStatus(device)
 
     local zone = findZone(device)
     local prefix = (zone ~= "ZM") and zone or "ZM"
@@ -201,6 +203,60 @@ function setVolumeDB(device, volumeDB)
 
 end
 ------------------------------------------------------------------------------------------
+function rampToVolume(device, settings)
+
+  local desiredVolume = settings.DesiredVolume
+  
+  local resetVolumeAfter = settings.ResetVolumeAfter
+  resetVolumeAfter = (tonumber(resetVolumeAfter) == 0) and "0" or "1"
+  luup.variable_set(REN_SID,"A_ARG_TYPE_ResetVolumeAfter", resetVolumeAfter, device)
+  
+  local programURI = settings.ProgramURI
+  luup.variable_set(REN_SID,"A_ARG_TYPE_ProgramURI", programURI, device)
+  local programURI = luup.variable_get(REN_SID, "A_ARG_TYPE_ProgramURI", device) or ""
+  if (rprogramURI == "") then
+    luup.variable_set(REN_SID, "A_ARG_TYPE_ProgramURI",  "0", device)
+  end 
+
+  local rampType = settings.RampType
+  luup.variable_set(REN_SID,"A_ARG_TYPE_RampType", rampType, device)
+    
+  if(rampType == "SLEEP_TIMER_RAMP_TYPE") then -- mutes and ups Volume per default within 17 seconds to desiredVolume
+    luup.call_action(REN_SID, "SetVolume", 0, device)
+  end
+
+  if(rampType == "ALARM_RAMP_TYPE") then  -- Switches audio on and slowly goes to volume
+    luup.call_action(REN_SID, "SetVolume", 0, device)
+  end
+  
+  if(rampType == "AUTOPLAY_RAMP_TYPE") then  -- very fast and smooth; Implemented from Sonos for the autoplay feature
+      
+  end
+  
+  local rampTimeSeconds = luup.variable_get(REN_SID, "A_ARG_TYPE_RampTimeSeconds", device) or ""
+  if (rampTimeSeconds == "" or rampTimeSeconds == "0") then
+    luup.variable_set(REN_SID, "A_ARG_TYPE_RampTimeSeconds",  DEFAULT_RAMP_TIME, device)
+  end  
+
+  local currentVolume = luup.variable_get(REN_SID, "Volume", device)
+  
+  if(resetVolumeAfter == 1) then
+    local previousVolume = currentVolume
+  end
+  
+  local step = (currentVolume < desiredVolume) and 0.5 or -0.5
+  local delta = math.abs(desiredVolume - currentVolume)
+  local volumeTimeStep = DEFAULT_RAMP_TIME/delta
+    
+  for i = currentVolume, desiredVolume, step do
+    luup.sleep(volumeTimeStep)
+    local lul_arguments = {}
+    lul_arguments["DesiredVolume"] = i
+    luup.call_action(REN_SID, "SetVolume", lul_arguments, device)
+  end
+
+end
+------------------------------------------------------------------------------------------
 function getVolume(device)
 
     local zone = findZone(device)
@@ -222,7 +278,6 @@ function get_source(input_source)
     return false
 
 end
-
 ------------------------------------------------------------------------------------------
 function setInput(device, input_no)
 
@@ -241,6 +296,14 @@ function setInput(device, input_no)
     if(source ~= false) then
         AVRReceiverSend(prefix .. source)
     end
+
+end
+------------------------------------------------------------------------------------------
+function getInput(device)
+
+    local DeviceAltId = tostring(luup.devices[device].id)
+    local prefix = (zone ~= "ZM") and DeviceAltId or "SI"
+    AVRReceiverSend(prefix .. '?')
 
 end
 ------------------------------------------------------------------------------------------
@@ -403,7 +466,6 @@ local RECEIVER_RESPONSES = {
             log(self.description..": Input Source: " .. data)
             luup.variable_set(DEN_SID,"Input",data,msgZone)
             local source =get_source(data) or " Unknown"
-            --luup.variable_set(IPS_IID,"Source","Input"..source,msgZone)
             luup.variable_set(DEN_SID,"Source","Input"..source,msgZone)
             log("response: data received SI " .. data .. " " .. self.description)
             return true
@@ -762,7 +824,7 @@ function receiverStartup(lul_device)
     local modelNumber =  string.match(detected_model, "%d+")
 
     if MODEL[modelNumber] ~= nil then
-        local zones = MODEL[modelNumber].zones
+        local zones = MODEL[modelNumber].zones or ""
         for zones in zones:gmatch("%d+") do numberOfZones = numberOfZones + 1 end
         AVRReceiverSendIntercept("PW?")
         createZones(avr_rec_dev)
