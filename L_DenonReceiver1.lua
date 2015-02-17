@@ -842,11 +842,23 @@ function receiverStartup(lul_device)
     setInitialParameters(avr_rec_dev)
         
     if (setupStatus == "" or setupStatus == "0") then
-        luup.attr_set("name", (detected_model or "AVR") .. '_' .. ((g_zones[1]) or "main"), avr_rec_dev)
-        local status = cj.create_static_json(g_sourceName, avr_rec_dev)
-        if (status == true) then
-            luup.variable_set(DEN_SID, "Setup",  "1", avr_rec_dev)
-        end
+    
+    	local ui7Check = luup.variable_get(DEN_SID, "UI7Check", avr_rec_dev) or ""
+	    if ui7Check == "" then
+		    luup.variable_set(DEN_SID, "UI7Check", "false", avr_rec_dev)
+		    ui7Check = "false"
+		    debug("UI7 check for device " .. avr_rec_dev)
+	    end
+	    
+	    if( luup.version_branch == 1 and luup.version_major == 7 and ui7Check == "false") then
+		    luup.variable_set(DEN_SID, "UI7Check", "true", avr_rec_dev)
+	    end
+    
+      luup.attr_set("name", (detected_model or "AVR") .. '_' .. ((g_zones[1]) or "main"), avr_rec_dev)
+      local status = cj.create_static_json(g_sourceName, avr_rec_dev, ui7Check)
+      if (status == true) then
+        luup.variable_set(DEN_SID, "Setup",  "1", avr_rec_dev)
+      end
     end
 
     local pollFreq = luup.variable_get(DEN_SID, "PollFreq", avr_rec_dev) or ""
