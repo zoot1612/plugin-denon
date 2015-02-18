@@ -49,17 +49,10 @@ function create_static_json(input_table, avr_dev, ui7Check)
     debug("Using UI-7 static json file template")
 
 	  outf:write( '{\n' )
-	  --outf:write( '	"default_icon": "av_receiver_default.png",\n' )
-	  outf:write( '	"default_icon": "zwave_default.png",\n' )
-	  
-	  
-	  
-
-
+	  outf:write( '	"default_icon": "av_receiver_default.png",\n' )
 	  outf:write( '    "state_icons": [\n' )
 	  outf:write( '        {\n' )
-	  --outf:write( '            "img": "av_receiver_default.png",\n' )
-	  outf:write( '            "img": "zwave_default_off.png",\n' )
+	  outf:write( '            "img": "av_receiver_default.png",\n' )
 	  outf:write( '            "conditions": [\n' )
 	  outf:write( '                {\n' )
 	  outf:write( '                    "service": "urn:upnp-org:serviceId:SwitchPower1",\n' )
@@ -71,9 +64,7 @@ function create_static_json(input_table, avr_dev, ui7Check)
 	  outf:write( '            ]\n' )
 	  outf:write( '        },\n' )
 	  outf:write( '        {\n' )
-	  --outf:write( '            "img": "av_receiver_on.png",\n' )
-	  outf:write( '            "img": "zwave_default_on.png",\n' )	  
-	  
+	  outf:write( '            "img": "av_receiver_default.png",\n' )
 	  outf:write( '            "conditions": [\n' )
 	  outf:write( '                {\n' )
 	  outf:write( '                    "service": "urn:upnp-org:serviceId:SwitchPower1",\n' )
@@ -139,7 +130,7 @@ function create_static_json(input_table, avr_dev, ui7Check)
 		outf:write( '				{\n' )
 		outf:write( '					"id": "3",\n' )
 		outf:write( '					"top": "0",\n' )
-		outf:write( '					"left": "1"\n' )
+		outf:write( '					"left": "1.5"\n' )
 		outf:write( '				},\n' )
 		
 		outf:write( '				{\n' )
@@ -481,8 +472,9 @@ function create_static_json(input_table, avr_dev, ui7Check)
 		outf:write( '							"Value": "0"\n' )
 		outf:write( '						}]\n' )
 		outf:write( '					}\n' )
-		outf:write( '				}, {\n' )
-
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 		outf:write( '					"ControlGroup": "2",\n' )
 		outf:write( '					"ControlType": "button",\n' )
 		outf:write( '					"Label": {\n' )
@@ -508,8 +500,9 @@ function create_static_json(input_table, avr_dev, ui7Check)
 		outf:write( '							"Value": "1"\n' )
 		outf:write( '						}]\n' )
 		outf:write( '					}\n' )
-		outf:write( '				}, {\n' )
-
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 		outf:write( '					"ControlGroup": "3",\n' )
 		outf:write( '					"ControlType": "button",\n' )
 		outf:write( '					"Label": {\n' )
@@ -535,8 +528,9 @@ function create_static_json(input_table, avr_dev, ui7Check)
 		outf:write( '							"Value": "0"\n' )
 		outf:write( '						}]\n' )
 		outf:write( '					}\n' )
-		outf:write( '				}, {\n' )
-
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 		outf:write( '					"ControlGroup": "4",\n' )
 		outf:write( '					"ControlType": "button",\n' )
 		outf:write( '					"Label": {\n' )
@@ -562,8 +556,9 @@ function create_static_json(input_table, avr_dev, ui7Check)
 		outf:write( '							"Value": "1"\n' )
 		outf:write( '						}]\n' )
 		outf:write( '					}\n' )
-		outf:write( '				}, {\n' )
-
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 		outf:write( '					"ControlGroup": "5",\n' )
 		outf:write( '					"ControlType": "slider",\n' )
 		outf:write( '					"top": "0",\n' )
@@ -590,8 +585,9 @@ function create_static_json(input_table, avr_dev, ui7Check)
 		outf:write( '							"ID": "NewDesiredVolume"\n' )
 		outf:write( '						}]\n' )
 		outf:write( '					}\n' )
-		outf:write( '				}, {\n' )
-
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 		outf:write( '					"ControlGroup": "6",\n' )
 		outf:write( '					"ControlType": "button",\n' )
 		outf:write( '					"top": "0",\n' )
@@ -617,8 +613,9 @@ function create_static_json(input_table, avr_dev, ui7Check)
 		outf:write( '							"Value": "0"\n' )
 		outf:write( '						}]\n' )
 		outf:write( '					}\n' )
-		outf:write( '				}, {\n' )
-
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 		outf:write( '					"ControlGroup": "6",\n' )
 		outf:write( '					"ControlType": "button",\n' )
 		outf:write( '					"top": "0",\n' )
@@ -645,9 +642,11 @@ function create_static_json(input_table, avr_dev, ui7Check)
 	  outf:write( '						}]\n' )
 	  outf:write( '					}\n' )
 	  outf:write( '				},\n' )
-	
+
+end
+
 	  outf:write( '				{\n' )
-	outf:write( '					"ControlType": "label",\n' )
+	  outf:write( '					"ControlType": "label",\n' )
 	  outf:write( '					"Label": {\n' )
 	  outf:write( '						"lang_tag": "lblMsg",\n' )
 	  outf:write( '						"text": "Input:",\n' )
@@ -669,8 +668,9 @@ function create_static_json(input_table, avr_dev, ui7Check)
 	  outf:write( '						"Width": 70,\n' )
 	  outf:write( '						"Height": 20\n' )
 	  outf:write( '					}\n' )
-	  outf:write( '				}, {\n' )
-
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 	  outf:write( '					"ControlType": "label",\n' )
 	  outf:write( '					"Label": {\n' )
 	  outf:write( '						"lang_tag": "lblMsg",\n' )
@@ -693,8 +693,9 @@ function create_static_json(input_table, avr_dev, ui7Check)
 	  outf:write( '						"Width": 70,\n' )
 	  outf:write( '						"Height": 20\n' )
 	  outf:write( '					}\n' )
-	  outf:write( '				}, {\n' )
-
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 	  outf:write( '					"ControlType": "label",\n' )
 	  outf:write( '					"Label": {\n' )
 	  outf:write( '						"lang_tag": "lblMsg",\n' )
@@ -717,8 +718,9 @@ function create_static_json(input_table, avr_dev, ui7Check)
 	  outf:write( '						"Width": 70,\n' )
 	  outf:write( '						"Height": 20\n' )
 	  outf:write( '					}\n' )
-	  outf:write( '				}, {\n' )
-
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 	  outf:write( '					"ControlType": "label",\n' )
 	  outf:write( '					"Label": {\n' )
 	  outf:write( '						"lang_tag": "lblMsg",\n' )
@@ -741,8 +743,9 @@ function create_static_json(input_table, avr_dev, ui7Check)
 	  outf:write( '						"Width": 100,\n' )
 	  outf:write( '						"Height": 20\n' )
 	  outf:write( '					}\n' )
-	  outf:write( '				}, {\n' )
-
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 	  outf:write( '					"ControlType": "label",\n' )
 	  outf:write( '					"Label": {\n' )
 	  outf:write( '						"lang_tag": "lblMsg",\n' )
@@ -755,8 +758,9 @@ function create_static_json(input_table, avr_dev, ui7Check)
 	  outf:write( '						"Width": 75,\n' )
 	  outf:write( '						"Height": 20\n' )
 	  outf:write( '					}\n' )
-	  outf:write( '				}, {\n' )
-
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 	  outf:write( '					"ControlType": "variable",\n' )
 	  outf:write( '					"Display": {\n' )
 	  outf:write( '						"Service": "urn:upnp-org:serviceId:RenderingControl1",\n' )
@@ -766,9 +770,11 @@ function create_static_json(input_table, avr_dev, ui7Check)
 	  outf:write( '						"Width": 100,\n' )
 	  outf:write( '						"Height": 20\n' )
 	  outf:write( '					}\n' )
-	  outf:write( '				}, {\n' )
+		outf:write( '				},\n' )
+		
 
 --[[
+    outf:write( '				{\n' )
 	  outf:write( '					"ControlType": "button",\n' )
 	  outf:write( '					"Label": {\n' )
 	  outf:write( '						"lang_tag": "command",\n' )
@@ -785,9 +791,10 @@ function create_static_json(input_table, avr_dev, ui7Check)
 	  outf:write( '						"Action": "Command",\n' )
 	  outf:write( '						"Parameters": []\n' )
 	  outf:write( '					}\n' )
-	  outf:write( '				}, {\n' )
+		outf:write( '				},\n' )
 ]]--
 
+		outf:write( '				{\n' )
 	  outf:write( '					"ControlType": "button",\n' )
 	  outf:write( '					"Label": {\n' )
 	  outf:write( '						"lang_tag": "volume_down",\n' )
@@ -804,8 +811,9 @@ function create_static_json(input_table, avr_dev, ui7Check)
 	  outf:write( '						"Action": "Down",\n' )
 	  outf:write( '						"Parameters": []\n' )
 	  outf:write( '					}\n' )
-	  outf:write( '				}, {\n' )
-
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 	  outf:write( '					"ControlType": "button",\n' )
 	  outf:write( '					"Label": {\n' )
 	  outf:write( '						"lang_tag": "volume_up",\n' )
@@ -869,13 +877,13 @@ function create_static_json(input_table, avr_dev, ui7Check)
 		end
 	end
 
-end
 	    outf:write( '				]\n' )
 	    outf:write( '			},\n' )
-	    outf:write( '			{\n' )	
+
 
 ------
 --[[
+    outf:write( '				{\n' )
 	  outf:write( '				"Label": {\n' )
 	  outf:write( '					"lang_tag": "tuner",\n' )
 	  outf:write( '					"text": "Tuner"\n' )
@@ -884,8 +892,9 @@ end
 	  outf:write( '				"TabType": "javascript",\n' )
 	  outf:write( '				"ScriptName": "J_AVRReceiver1.js",\n' )
 	  outf:write( '				"Function": "tuner"\n' )
-	  outf:write( '			}, {\n' )
+	  outf:write( '				},\n' )
 ------
+    outf:write( '				{\n' )
 	  outf:write( '				"Label": {\n' )
 	  outf:write( '					"lang_tag": "sirius",\n' )
 	  outf:write( '					"text": "Sirius"\n' )
@@ -894,9 +903,22 @@ end
 	  outf:write( '				"TabType": "javascript",\n' )
 	  outf:write( '				"ScriptName": "J_AVRReceiver1.js",\n' )
 	  outf:write( '				"Function": "sirius"\n' )
-	  outf:write( '			}, {\n' )
+	  outf:write( '				},\n' )
 ]]--
 ------
+
+		outf:write( '				{\n' )
+	  outf:write( '				"Label": {\n' )
+	  outf:write( '					"lang_tag": "advanced",\n' )
+	  outf:write( '					"text": "Advanced"\n' )
+	  outf:write( '				},\n' )
+	  outf:write( '				"Position": "1",\n' )
+	  outf:write( '				"TabType": "javascript",\n' )
+	  outf:write( '				"ScriptName": "shared.js",\n' )
+	  outf:write( '				"Function": "advanced_device"\n' )
+		outf:write( '				},\n' )
+		
+	  outf:write( '			  {\n' )	
 	  outf:write( '				"Label": {\n' )
 	  outf:write( '					"lang_tag": "settings",\n' )
 	  outf:write( '					"text": "Settings"\n' )
@@ -905,19 +927,9 @@ end
 	  outf:write( '				"TabType": "javascript",\n' )
 	  outf:write( '				"ScriptName": "shared.js",\n' )
 	  outf:write( '				"Function": "simple_device"\n' )
-	  outf:write( '			}, {\n' )
-------
-	  outf:write( '				"Label": {\n' )
-	  outf:write( '					"lang_tag": "advanced",\n' )
-	  outf:write( '					"text": "Advanced"\n' )
-	  outf:write( '				},\n' )
-	  outf:write( '				"Position": "1",\n' )
-	  --outf:write( '				"TopNavigationTab": "1",\n' ) --This is a test
-	  outf:write( '				"TabType": "javascript",\n' )
-	  outf:write( '				"ScriptName": "shared.js",\n' )
-	  outf:write( '				"Function": "advanced_device"\n' )
-	  outf:write( '			}, {\n' )
-------
+		outf:write( '				},\n' )
+				
+		outf:write( '				{\n' )
 	  outf:write( '				"Label": {\n' )
 	  outf:write( '					"lang_tag": "device_options",\n' )
 	  outf:write( '					"text": "Device Options"\n' )
@@ -926,8 +938,9 @@ end
 	  outf:write( '				"TabType": "javascript",\n' )
 	  outf:write( '				"ScriptName": "shared.js",\n' )
 	  outf:write( '				"Function": "device_zwave_options"\n' )
-	  outf:write( '			}, {\n' )
-------
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 	  outf:write( '				"Label": {\n' )
 	  outf:write( '					"lang_tag": "logs",\n' )
 	  outf:write( '					"text": "Logs"\n' )
@@ -936,8 +949,9 @@ end
 	  outf:write( '				"TabType": "javascript",\n' )
 	  outf:write( '				"ScriptName": "shared.js",\n' )
 	  outf:write( '				"Function": "device_logs"\n' )
-	  outf:write( '			}, {\n' )
-------
+		outf:write( '				},\n' )
+		
+		outf:write( '				{\n' )
 	  outf:write( '				"Label": {\n' )
 	  outf:write( '					"lang_tag": "notifications",\n' )
 	  outf:write( '					"text": "Notifications"\n' )
@@ -1037,26 +1051,6 @@ end
 	  outf:write( '		}\n' )
 
 	outf:close()
-
---[[
-	if (file_exists(remote_path .. remote_service_file .. '.lzo')== false) then
-		debug('Service file for rendering control has not been installed')
-		local status, result = luup.inet.wget(remote_file_location)
-		--os.execute( 'wget ' .. remote_file_location .. ' -O '..remote_path .. remote_service_file)
-		
-		if (status == 0) then
-		  local srvfile = io.open( remote_path .. remote_service_file, 'w')
-		  debug(result)
-		  srvfile:write(result)
-		  srvfile:close()
-		  os.execute( 'pluto-lzo c '.. remote_path .. remote_service_file  .. ' ' .. remote_path .. remote_service_file .. '.lzo')
-		  --os.execute( 'rm '.. remote_path .. remote_service_file)
-		else
-		  return false
-		end
-
-	end
-]]--
 
 	if (file_exists(remote_path .. template_file .. '.lzo')== true) then
 		debug('Device file template ' .. remote_path .. template_file .. ' exists, decompress.')
