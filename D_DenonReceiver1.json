@@ -15,7 +15,7 @@
 				"Service": "urn:upnp-org:serviceId:RenderingControl1",
 				"Variable": "Volume",
 				"MinValue": "0",
-				"MaxValue": "100"
+				"MaxValue": "98"
 			},
 			"doc_url": {
 				"doc_language": 1,
@@ -102,7 +102,8 @@
 							"Value": "0"
 						}]
 					}
-				}, {
+				},
+				{
 					"ControlGroup": "2",
 					"ControlType": "button",
 					"Label": {
@@ -128,7 +129,8 @@
 							"Value": "1"
 						}]
 					}
-				}, {
+				},
+				{
 					"ControlGroup": "3",
 					"ControlType": "button",
 					"Label": {
@@ -154,7 +156,8 @@
 							"Value": "0"
 						}]
 					}
-				}, {
+				},
+				{
 					"ControlGroup": "4",
 					"ControlType": "button",
 					"Label": {
@@ -180,7 +183,8 @@
 							"Value": "1"
 						}]
 					}
-				}, {
+				},
+				{
 					"ControlGroup": "5",
 					"ControlType": "slider",
 					"top": "0",
@@ -192,10 +196,10 @@
 						"Service": "urn:upnp-org:serviceId:RenderingControl1",
 						"Variable": "Volume",
 						"MinValue": "0",
-						"MaxValue": "98",
+						"MaxValue": "100",
 						"Top": 70,
 						"Left": 10,
-						"Width": 200,
+						"Width": 160,
 						"Height": 20
 					},
 					"Command": {
@@ -206,7 +210,8 @@
 							"ID": "NewDesiredVolume"
 						}]
 					}
-				}, {
+				},
+				{
 					"ControlGroup": "6",
 					"ControlType": "button",
 					"top": "0",
@@ -232,7 +237,8 @@
 							"Value": "0"
 						}]
 					}
-				}, {
+				},
+				{
 					"ControlGroup": "6",
 					"ControlType": "button",
 					"top": "0",
@@ -258,7 +264,8 @@
 							"Value": "1"
 						}]
 					}
-				}, {
+				},
+				{
 					"ControlType": "label",
 					"Label": {
 						"lang_tag": "lblMsg",
@@ -281,7 +288,8 @@
 						"Width": 70,
 						"Height": 20
 					}
-				}, {
+				},
+				{
 					"ControlType": "label",
 					"Label": {
 						"lang_tag": "lblMsg",
@@ -304,7 +312,8 @@
 						"Width": 70,
 						"Height": 20
 					}
-				}, {
+				},
+				{
 					"ControlType": "label",
 					"Label": {
 						"lang_tag": "lblMsg",
@@ -327,7 +336,8 @@
 						"Width": 70,
 						"Height": 20
 					}
-				}, {
+				},
+				{
 					"ControlType": "label",
 					"Label": {
 						"lang_tag": "lblMsg",
@@ -350,7 +360,8 @@
 						"Width": 100,
 						"Height": 20
 					}
-				}, {
+				},
+				{
 					"ControlType": "label",
 					"Label": {
 						"lang_tag": "lblMsg",
@@ -363,7 +374,8 @@
 						"Width": 75,
 						"Height": 20
 					}
-				}, {
+				},
+				{
 					"ControlType": "variable",
 					"Display": {
 						"Service": "urn:upnp-org:serviceId:RenderingControl1",
@@ -373,7 +385,8 @@
 						"Width": 100,
 						"Height": 20
 					}
-				}, {
+				},
+				{
 					"ControlType": "button",
 					"Label": {
 						"lang_tag": "volume_down",
@@ -390,7 +403,8 @@
 						"Action": "Down",
 						"Parameters": []
 					}
-				}, {
+				},
+				{
 					"ControlType": "button",
 					"Label": {
 						"lang_tag": "volume_up",
@@ -418,8 +432,8 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "CD",
-				"Top": 30,
-				"Left": 385,
+				"Top": 10,
+				"Left": 250,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -437,8 +451,8 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "DVD",
-				"Top": 30,
-				"Left": 465,
+				"Top": 10,
+				"Left": 330,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -456,8 +470,8 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "HDP",
-				"Top": 30,
-				"Left": 545,
+				"Top": 10,
+				"Left": 410,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -475,8 +489,8 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "TV/CBL",
-				"Top": 60,
-				"Left": 385,
+				"Top": 10,
+				"Left": 490,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -494,8 +508,8 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "SAT",
-				"Top": 60,
-				"Left": 465,
+				"Top": 40,
+				"Left": 250,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -513,8 +527,8 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "VCR",
-				"Top": 60,
-				"Left": 545,
+				"Top": 40,
+				"Left": 330,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -532,8 +546,8 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "DVR",
-				"Top": 90,
-				"Left": 385,
+				"Top": 40,
+				"Left": 410,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -551,8 +565,8 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "V.AUX",
-				"Top": 90,
-				"Left": 465,
+				"Top": 40,
+				"Left": 490,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -570,8 +584,8 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "TUNER",
-				"Top": 90,
-				"Left": 545,
+				"Top": 70,
+				"Left": 250,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -589,8 +603,8 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "PHONO",
-				"Top": 120,
-				"Left": 385,
+				"Top": 70,
+				"Left": 330,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -608,8 +622,8 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "NET/USB",
-				"Top": 120,
-				"Left": 465,
+				"Top": 70,
+				"Left": 410,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -618,16 +632,8 @@
 			}
 	}
 				]
-			}, {
-				"Label": {
-					"lang_tag": "settings",
-					"text": "Settings"
-				},
-				"Position": "2",
-				"TabType": "javascript",
-				"ScriptName": "shared.js",
-				"Function": "simple_device"
-			}, {
+			},
+				{
 				"Label": {
 					"lang_tag": "advanced",
 					"text": "Advanced"
@@ -636,7 +642,18 @@
 				"TabType": "javascript",
 				"ScriptName": "shared.js",
 				"Function": "advanced_device"
-			}, {
+				},
+			  {
+				"Label": {
+					"lang_tag": "settings",
+					"text": "Settings"
+				},
+				"Position": "2",
+				"TabType": "javascript",
+				"ScriptName": "shared.js",
+				"Function": "simple_device"
+				},
+				{
 				"Label": {
 					"lang_tag": "device_options",
 					"text": "Device Options"
@@ -645,7 +662,8 @@
 				"TabType": "javascript",
 				"ScriptName": "shared.js",
 				"Function": "device_zwave_options"
-			}, {
+				},
+				{
 				"Label": {
 					"lang_tag": "logs",
 					"text": "Logs"
@@ -654,7 +672,8 @@
 				"TabType": "javascript",
 				"ScriptName": "shared.js",
 				"Function": "device_logs"
-			}, {
+				},
+				{
 				"Label": {
 					"lang_tag": "notifications",
 					"text": "Notifications"
