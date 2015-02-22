@@ -1,0 +1,69 @@
+
+
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="urn:schemas-upnp-org:device-1-0">
+  <specVersion>
+    <major>1</major>
+    <minor>0</minor>
+  </specVersion>
+  <device>
+    <deviceType>urn:schemas-denon-com:device:receiver:1</deviceType>
+    <staticJson>D_AVR-3808EUR1.json</staticJson>
+    <friendlyName>Denon Receiver (AVR) via RS232/Ethernet</friendlyName>
+    <manufacturer>Denon</manufacturer>
+    <manufacturerURL>http://www.denon.com</manufacturerURL>
+    <modelDescription>Denon Receiver over RS232 or Ethernet</modelDescription>
+    <modelName>Denon AVR series</modelName>
+    <modelNumber>1.0</modelNumber>
+    <UDN>uuid:2ff93ec0-c2f8-11dd-ad8b-08fff0c9a67</UDN>
+    <protocol>cr</protocol>
+    <handleChildren>1</handleChildren>
+		<Category_Num>15</Category_Num>
+    <implementationList>
+      <implementationFile>I_DenonReceiver1.xml</implementationFile>
+    </implementationList>
+    <serviceList>
+      <service>
+        <serviceType>urn:micasaverde-com:service:DiscretePower:1</serviceType>
+        <serviceId>urn:micasaverde-com:serviceId:DiscretePower1</serviceId>
+        <SCPDURL>S_DiscretePower1.xml</SCPDURL>
+      </service>
+      <service>
+        <serviceType>urn:schemas-upnp-org:service:SwitchPower:1</serviceType>
+        <serviceId>urn:upnp-org:serviceId:SwitchPower1</serviceId>
+        <SCPDURL>S_SwitchPower1.xml</SCPDURL>
+      </service>
+      <service>
+        <serviceType>urn:schemas-micasaverde-com:service:Volume:1</serviceType>
+        <serviceId>urn:micasaverde-com:serviceId:Volume1</serviceId>
+        <SCPDURL>S_Volume1.xml</SCPDURL>
+      </service>
+      <service>
+        <serviceType>urn:denon-com:serviceId:Receiver:1</serviceType>
+        <serviceId>urn:denon-com:serviceId:Receiver1</serviceId>
+        <SCPDURL>S_DenonReceiver1.xml</SCPDURL>
+      </service>
+      <service>
+        <serviceType>urn:micasaverde-com:service:InputSelection:1</serviceType>
+        <serviceId>urn:micasaverde-com:serviceId:InputSelection1</serviceId>
+        <SCPDURL>S_InputSelection1.xml</SCPDURL>
+      </service>
+      <service>
+        <serviceType>urn:micasaverde-com:service:TogglePower:1</serviceType>
+        <serviceId>urn:micasaverde-com:serviceId:TogglePower1</serviceId>
+        <SCPDURL>S_TogglePower1.xml</SCPDURL>
+      </service>
+      <service>
+        <serviceType>urn:upnp-org:serviceId:RenderingControl:1</serviceType>
+        <serviceId>urn:upnp-org:serviceId:RenderingControl1</serviceId>
+        <SCPDURL>S_DenonRenderingControl1.xml</SCPDURL>
+      </service>
+      <service>
+        <serviceType>urn:micasaverde-com:service:Tuning:1</serviceType>
+        <serviceId>urn:micasaverde-com:serviceId:Tuning1</serviceId>
+        <SCPDURL>S_Tuning1.xml</SCPDURL>
+      </service>
+    </serviceList>
+  </device>
+</root>
+
