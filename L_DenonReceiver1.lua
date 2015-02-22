@@ -853,6 +853,7 @@ function receiverStartup(lul_device)
 	    if( luup.version_branch == 1 and luup.version_major == 7 and ui7Check == "false") then
 		    luup.variable_set(DEN_SID, "UI7Check", "true", avr_rec_dev)
 		    ui7Check = "true"
+		    luup.attr_set("device_json", "D_DenonReceiver1_UI7.json", avr_dev)
 	    end
     
       luup.attr_set("name", (detected_model or "AVR") .. '_' .. ((g_zones[1]) or "main"), avr_rec_dev)
