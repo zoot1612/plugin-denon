@@ -88,166 +88,179 @@
 					"y": "0.5"
 				}
 			],
-				"Control": [{
-					"ControlGroup": "1",
-					"ControlType": "button",
-					"Label": {
-						"lang_tag": "cmd_off",
-						"text": "Zone Off"
-					},
-					"top": "0",
-					"left": "0",
-					"Display": {
-						"Service": "urn:upnp-org:serviceId:SwitchPower1",
-						"Variable": "Status",
-						"Value": "0",
-						"Top": 40,
-						"Left": 10,
-						"Width": 70,
-						"Height": 20
-					},
-					"Command": {
-						"Service": "urn:upnp-org:serviceId:SwitchPower1",
-						"Action": "SetTarget",
-						"Parameters": [{
-							"Name": "newTargetValue",
-							"Value": "0"
-						}]
-					}
-				},
+				"Control": [
 				{
 					"ControlGroup": "1",
-					"ControlType": "button",
-					"Label": {
-						"lang_tag": "cmd_on",
-						"text": "Zone On"
-					},
-					"top": "1",
+					"ControlType": "multi_state_button",
+					"top": "0",
 					"left": "0",
+					"states":[
+						{
+							"Label": {
+								"lang_tag": "ui7_cmd_zone_on",
+								"text": "Zone On"
+							},
+							"ControlGroup": "1",
+							"Display": {
+								"Service": "urn:upnp-org:serviceId:SwitchPower1",
+								"Variable": "Status",
+								"Value": "1"
+							},
+							"Command": {
+								"Service": "urn:upnp-org:serviceId:SwitchPower1",
+								"Action": "SetTarget",
+								"Parameters": [
+									{
+										"Name": "newTargetValue",
+										"Value": "1"
+									}
+								]
+							},
+							"ControlCode": "avr_power_on"
+						},
+						{
+							"Label": {
+								"lang_tag": "ui7_cmd_zone_off",
+								"text": "Zone Off"
+							},
+							"ControlGroup": "1",
+							"Display": {
+								"Service": "urn:upnp-org:serviceId:SwitchPower1",
+								"Variable": "Status",
+								"Value": "0"
+							},
+							"Command": {
+								"Service": "urn:upnp-org:serviceId:SwitchPower1",
+								"Action": "SetTarget",
+								"Parameters": [
+									{
+										"Name": "newTargetValue",
+										"Value": "0"
+									}
+								]
+							},
+							"ControlCode": "avr_power_off"
+						}
+					],
 					"Display": {
-						"Service": "urn:upnp-org:serviceId:SwitchPower1",
-						"Variable": "Status",
-						"Value": "1",
-						"Top": 40,
-						"Left": 100,
-						"Width": 70,
-						"Height": 20
-					},
-					"Command": {
-						"Service": "urn:upnp-org:serviceId:SwitchPower1",
-						"Action": "SetTarget",
-						"Parameters": [{
-							"Name": "newTargetValue",
-							"Value": "1"
-						}]
+					"Top": 0,
+					"Left": 0
 					}
 				},
 				{
 					"ControlGroup": "2",
-					"ControlType": "button",
-					"Label": {
-						"lang_tag": "cmd_off",
-						"text": "Standby"
-					},
+					"ControlType": "multi_state_button",
 					"top": "0",
 					"left": "0",
+					"states":[
+						{
+							"Label": {
+								"lang_tag": "ui7_cmd_zone_on",
+								"text": "Main On"
+							},
+							"ControlGroup": "2",
+							"Display": {
+								"Service": "urn:denon-com:serviceId:Receiver1",
+								"Variable": "PowerStatus",
+								"Value": "1"
+							},
+							"Command": {
+								"Service": "urn:micasaverde-com:serviceId:DiscretePower1",
+								"Action": "On",
+								"Parameters": [
+									{
+										"Name": "On",
+										"Value": "1"
+									}
+								]
+							},
+							"ControlCode": "avr_discrete_power_on"
+						},
+						{
+							"Label": {
+								"lang_tag": "ui7_cmd_zone_off",
+								"text": "Standby"
+							},
+							"ControlGroup": "2",
+							"Display": {
+								"Service": "urn:denon-com:serviceId:Receiver1",
+								"Variable": "PowerStatus",
+								"Value": "0"
+							},
+							"Command": {
+								"Service": "urn:micasaverde-com:serviceId:DiscretePower1",
+								"Action": "Off",
+								"Parameters": [
+									{
+										"Name": "Off",
+										"Value": "0"
+									}
+								]
+							},
+							"ControlCode": "avr_discrete_power_off"
+						}
+					],
 					"Display": {
-						"Service": "urn:denon-com:serviceId:Receiver1",
-						"Variable": "PowerStatus",
-						"Value": "0",
-						"Top": 10,
-						"Left": 10,
-						"Width": 70,
-						"Height": 20
-					},
-					"Command": {
-						"Service": "urn:micasaverde-com:serviceId:DiscretePower1",
-						"Action": "Off",
-						"Parameters": [{
-							"Name": "Off",
-							"Value": "0"
-						}]
-					}
-				},
-				{
-					"ControlGroup": "2",
-					"ControlType": "button",
-					"Label": {
-						"lang_tag": "cmd_on",
-						"text": "Main On"
-					},
-					"top": "1",
-					"left": "0",
-					"Display": {
-						"Service": "urn:denon-com:serviceId:Receiver1",
-						"Variable": "PowerStatus",
-						"Value": "1",
-						"Top": 10,
-						"Left": 100,
-						"Width": 70,
-						"Height": 20
-					},
-					"Command": {
-						"Service": "urn:micasaverde-com:serviceId:DiscretePower1",
-						"Action": "On",
-						"Parameters": [{
-							"Name": "On",
-							"Value": "1"
-						}]
-					}
-				},
-				{
-					"ControlGroup": "3",
-					"ControlType": "button",
-					"top": "0",
-					"left": "1",
-					"Label": {
-						"lang_tag": "unmute",
-						"text": "Unmute"
-					},
-					"Display": {
-						"Service": "urn:upnp-org:serviceId:RenderingControl1",
-						"Variable": "Mute",
-						"Value": "0",
-						"Top": 100,
-						"Left": 100,
-						"Width": 70,
-						"Height": 20
-					},
-					"Command": {
-						"Service": "urn:upnp-org:serviceId:RenderingControl1",
-						"Action": "SetMute",
-						"Parameters": [{
-							"Name": "DesiredMute",
-							"Value": "0"
-						}]
+					"Top": 0,
+					"Left": 70
 					}
 				},
 				{
 					"ControlGroup": "3",
-					"ControlType": "button",
+					"ControlType": "multi_state_button",
 					"top": "0",
 					"left": "0",
-					"Label": {
-						"lang_tag": "mute",
-						"text": "mute"
-					},
+					"states":[
+						{
+							"Label": {
+								"lang_tag": "ui7_cmd_mute_on",
+								"text": "Mute On"
+							},
+							"ControlGroup": "3",
+							"Display": {
+								"Service": "urn:upnp-org:serviceId:RenderingControl1",
+								"Variable": "Mute",
+								"Value": "1"
+							},
+							"Command": {
+								"Service": "urn:upnp-org:serviceId:RenderingControl1",
+								"Action": "SetMute",
+								"Parameters": [
+									{
+										"Name": "DesiredMute",
+										"Value": "1"
+									}
+								]
+							},
+							"ControlCode": "avr_mute_on"
+						},
+						{
+							"Label": {
+								"lang_tag": "ui7_cmd_mute_off",
+								"text": "Mute Off"
+							},
+							"ControlGroup": "3",
+							"Display": {
+								"Service": "urn:upnp-org:serviceId:RenderingControl1",
+								"Variable": "Mute",
+								"Value": "0"
+							},
+							"Command": {
+								"Service": "urn:upnp-org:serviceId:RenderingControl1",
+								"Action": "SetMute",
+								"Parameters": [
+									{
+										"Name": "DesiredMute",
+										"Value": "0"
+									}
+								]
+							},
+							"ControlCode": "avr_mute_off"
+						}
+					],
 					"Display": {
-						"Service": "urn:upnp-org:serviceId:RenderingControl1",
-						"Variable": "Mute",
-						"Value": "1",
-						"Top": 130,
-						"Left": 100,
-						"Width": 70,
-						"Height": 20
-					},
-					"Command": {
-						"Service": "urn:upnp-org:serviceId:RenderingControl1",
-						"Action": "SetMute",
-						"Parameters": [{
-							"Name": "DesiredMute",
-							"Value": "1"
-						}]
+					"Top": 0,
+					"Left": 160
 					}
 				},
 					{
@@ -276,9 +289,9 @@
 						"MinValue": "0",
 						"MaxValue": "98",
 						"Top": 70,
-						"Left": 10,
-						"Width": 160,
-						"Height": 5,
+						"Left": 45,
+						"Width": 145,
+						"Height": 20,
 						"ID": "Desired_Volume"
 					},
 					"Command": {
@@ -301,6 +314,42 @@
 						]
 					},
 					"ControlCode": "desired_volume_ui7"
+				},
+				{
+					"ControlType": "button",
+					"Label": {
+						"lang_tag": "volume_down",
+						"text": "-"
+					},
+					"Display": {
+						"Top": 70,
+						"Left": 10,
+						"Width": 25,
+						"Height": 25
+					},
+					"Command": {
+						"Service": "urn:micasaverde-com:serviceId:Volume1",
+						"Action": "Down",
+						"Parameters": []
+					}
+				},
+				{
+					"ControlType": "button",
+					"Label": {
+						"lang_tag": "volume_up",
+						"text": "+"
+					},
+					"Display": {
+						"Top": 70,
+						"Left": 200,
+						"Width": 25,
+						"Height": 25
+					},
+					"Command": {
+						"Service": "urn:micasaverde-com:serviceId:Volume1",
+						"Action": "Up",
+						"Parameters": []
+					}
 				},
 				{
 					"ControlType": "label",
@@ -423,42 +472,6 @@
 						"Height": 20
 					}
 				},
-				{
-					"ControlType": "button",
-					"Label": {
-						"lang_tag": "volume_down",
-						"text": "- Volume"
-					},
-					"Display": {
-						"Top": 130,
-						"Left": 10,
-						"Width": 70,
-						"Height": 20
-					},
-					"Command": {
-						"Service": "urn:micasaverde-com:serviceId:Volume1",
-						"Action": "Down",
-						"Parameters": []
-					}
-				},
-				{
-					"ControlType": "button",
-					"Label": {
-						"lang_tag": "volume_up",
-						"text": "+ Volume"
-					},
-					"Display": {
-						"Top": 100,
-						"Left": 10,
-						"Width": 70,
-						"Height": 20
-					},
-					"Command": {
-						"Service": "urn:micasaverde-com:serviceId:Volume1",
-						"Action": "Up",
-						"Parameters": []
-					}
-				},
 		{
 			"ControlType": "button",
 			"Label": {
@@ -469,10 +482,10 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "CD",
-				"Top": 10,
-				"Left": 250,
+				"Top": 0,
+				"Left": 300,
 				"Width": "70",
-				"Height": "20"
+				"Height": "25"
 			},			"Command": {
 				"Service": "urn:micasaverde-com:serviceId:InputSelection1",
 				"Action": "Input1"
@@ -488,10 +501,10 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "DVD",
-				"Top": 10,
-				"Left": 330,
+				"Top": 0,
+				"Left": 380,
 				"Width": "70",
-				"Height": "20"
+				"Height": "25"
 			},			"Command": {
 				"Service": "urn:micasaverde-com:serviceId:InputSelection1",
 				"Action": "Input2"
@@ -507,10 +520,10 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "HDP",
-				"Top": 10,
-				"Left": 410,
+				"Top": 0,
+				"Left": 460,
 				"Width": "70",
-				"Height": "20"
+				"Height": "25"
 			},			"Command": {
 				"Service": "urn:micasaverde-com:serviceId:InputSelection1",
 				"Action": "Input3"
@@ -526,10 +539,10 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "TV/CBL",
-				"Top": 10,
-				"Left": 490,
+				"Top": 0,
+				"Left": 540,
 				"Width": "70",
-				"Height": "20"
+				"Height": "25"
 			},			"Command": {
 				"Service": "urn:micasaverde-com:serviceId:InputSelection1",
 				"Action": "Input4"
@@ -545,10 +558,10 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "SAT",
-				"Top": 40,
-				"Left": 250,
+				"Top": 35,
+				"Left": 300,
 				"Width": "70",
-				"Height": "20"
+				"Height": "25"
 			},			"Command": {
 				"Service": "urn:micasaverde-com:serviceId:InputSelection1",
 				"Action": "Input5"
@@ -564,10 +577,10 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "VCR",
-				"Top": 40,
-				"Left": 330,
+				"Top": 35,
+				"Left": 380,
 				"Width": "70",
-				"Height": "20"
+				"Height": "25"
 			},			"Command": {
 				"Service": "urn:micasaverde-com:serviceId:InputSelection1",
 				"Action": "Input6"
@@ -583,10 +596,10 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "DVR",
-				"Top": 40,
-				"Left": 410,
+				"Top": 35,
+				"Left": 460,
 				"Width": "70",
-				"Height": "20"
+				"Height": "25"
 			},			"Command": {
 				"Service": "urn:micasaverde-com:serviceId:InputSelection1",
 				"Action": "Input7"
@@ -602,10 +615,10 @@
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Variable": "Input",
 				"Value": "V.AUX",
-				"Top": 40,
-				"Left": 490,
+				"Top": 35,
+				"Left": 540,
 				"Width": "70",
-				"Height": "20"
+				"Height": "25"
 			},			"Command": {
 				"Service": "urn:micasaverde-com:serviceId:InputSelection1",
 				"Action": "Input8"
@@ -622,9 +635,9 @@
 				"Variable": "Input",
 				"Value": "TUNER",
 				"Top": 70,
-				"Left": 250,
+				"Left": 300,
 				"Width": "70",
-				"Height": "20"
+				"Height": "25"
 			},			"Command": {
 				"Service": "urn:micasaverde-com:serviceId:InputSelection1",
 				"Action": "Input9"
@@ -641,9 +654,9 @@
 				"Variable": "Input",
 				"Value": "PHONO",
 				"Top": 70,
-				"Left": 330,
+				"Left": 380,
 				"Width": "70",
-				"Height": "20"
+				"Height": "25"
 			},			"Command": {
 				"Service": "urn:micasaverde-com:serviceId:InputSelection1",
 				"Action": "Input10"
@@ -660,9 +673,9 @@
 				"Variable": "Input",
 				"Value": "NET/USB",
 				"Top": 70,
-				"Left": 410,
+				"Left": 460,
 				"Width": "70",
-				"Height": "20"
+				"Height": "25"
 			},			"Command": {
 				"Service": "urn:denon-com:serviceId:Receiver1",
 				"Action": "Input11"

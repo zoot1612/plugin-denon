@@ -199,7 +199,7 @@
 						"MaxValue": "100",
 						"Top": 70,
 						"Left": 10,
-						"Width": 160,
+						"Width": 200,
 						"Height": 20
 					},
 					"Command": {
@@ -263,6 +263,42 @@
 							"Name": "DesiredMute",
 							"Value": "1"
 						}]
+					}
+				},
+				{
+					"ControlType": "button",
+					"Label": {
+						"lang_tag": "volume_down",
+						"text": "- Volume"
+					},
+					"Display": {
+						"Top": 130,
+						"Left": 10,
+						"Width": 70,
+						"Height": 20
+					},
+					"Command": {
+						"Service": "urn:micasaverde-com:serviceId:Volume1",
+						"Action": "Down",
+						"Parameters": []
+					}
+				},
+				{
+					"ControlType": "button",
+					"Label": {
+						"lang_tag": "volume_up",
+						"text": "+ Volume"
+					},
+					"Display": {
+						"Top": 100,
+						"Left": 10,
+						"Width": 70,
+						"Height": 20
+					},
+					"Command": {
+						"Service": "urn:micasaverde-com:serviceId:Volume1",
+						"Action": "Up",
+						"Parameters": []
 					}
 				},
 				{
@@ -386,42 +422,6 @@
 						"Height": 20
 					}
 				},
-				{
-					"ControlType": "button",
-					"Label": {
-						"lang_tag": "volume_down",
-						"text": "- Volume"
-					},
-					"Display": {
-						"Top": 130,
-						"Left": 10,
-						"Width": 70,
-						"Height": 20
-					},
-					"Command": {
-						"Service": "urn:micasaverde-com:serviceId:Volume1",
-						"Action": "Down",
-						"Parameters": []
-					}
-				},
-				{
-					"ControlType": "button",
-					"Label": {
-						"lang_tag": "volume_up",
-						"text": "+ Volume"
-					},
-					"Display": {
-						"Top": 100,
-						"Left": 10,
-						"Width": 70,
-						"Height": 20
-					},
-					"Command": {
-						"Service": "urn:micasaverde-com:serviceId:Volume1",
-						"Action": "Up",
-						"Parameters": []
-					}
-				},
 		{
 			"ControlType": "button",
 			"Label": {
@@ -433,7 +433,7 @@
 				"Variable": "Input",
 				"Value": "CD",
 				"Top": 10,
-				"Left": 250,
+				"Left": 300,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -452,7 +452,7 @@
 				"Variable": "Input",
 				"Value": "DVD",
 				"Top": 10,
-				"Left": 330,
+				"Left": 380,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -471,7 +471,7 @@
 				"Variable": "Input",
 				"Value": "HDP",
 				"Top": 10,
-				"Left": 410,
+				"Left": 460,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -490,7 +490,7 @@
 				"Variable": "Input",
 				"Value": "TV/CBL",
 				"Top": 10,
-				"Left": 490,
+				"Left": 540,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -509,7 +509,7 @@
 				"Variable": "Input",
 				"Value": "SAT",
 				"Top": 40,
-				"Left": 250,
+				"Left": 300,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -528,7 +528,7 @@
 				"Variable": "Input",
 				"Value": "VCR",
 				"Top": 40,
-				"Left": 330,
+				"Left": 380,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -547,7 +547,7 @@
 				"Variable": "Input",
 				"Value": "DVR",
 				"Top": 40,
-				"Left": 410,
+				"Left": 460,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -566,7 +566,7 @@
 				"Variable": "Input",
 				"Value": "V.AUX",
 				"Top": 40,
-				"Left": 490,
+				"Left": 540,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -585,7 +585,7 @@
 				"Variable": "Input",
 				"Value": "TUNER",
 				"Top": 70,
-				"Left": 250,
+				"Left": 300,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -604,7 +604,7 @@
 				"Variable": "Input",
 				"Value": "PHONO",
 				"Top": 70,
-				"Left": 330,
+				"Left": 380,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
@@ -623,7 +623,7 @@
 				"Variable": "Input",
 				"Value": "NET/USB",
 				"Top": 70,
-				"Left": 410,
+				"Left": 460,
 				"Width": "70",
 				"Height": "20"
 			},			"Command": {
