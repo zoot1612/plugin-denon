@@ -1,4 +1,4 @@
-local VERSION = "1.277"
+local VERSION = "1.278"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -119,9 +119,8 @@ end
 local function normaliseVolume(device, volume)
 
   local current_volume = tonumber(luup.variable_get(REN_SID,"Volume",device),10)
-  MIN_VOL = (device == avr_rec_dev) and MIN_VOL or MIN_VOL_ZONE
-  volume = (volume >= MIN_VOL and volume <= MAX_VOL) and volume or current_volume
-
+  local min_vol = (device == avr_rec_dev) and MIN_VOL or MIN_VOL_ZONE
+  volume = (volume <= min_vol) and min_vol or ((volume >= MAX_VOL) and MAX_VOL or volume)
   quant,frac = math.modf(volume)
   frac = ((device == avr_rec_dev) and (string.format("%.1f", frac) == "0.5")) and "5" or ""
   debug("setVolume: current volume: " .. current_volume .. " new volume: " .. volume .. ".")
@@ -144,52 +143,42 @@ function AVRReceiverSend(command)
 end
 ------------------------------------------------------------------------------------------
 function setMute(device, mute)
-
     local zone = findZone(device)
     local prefix = (zone ~= "ZM") and zone or ""
     AVRReceiverSend(prefix .. "MU" .. mute)
-
 end
 ------------------------------------------------------------------------------------------
 function getMute(device)
-
     local zone = findZone(device)
     local prefix = (zone ~= "ZM") and zone or ""
     AVRReceiverSend(prefix .. "MU?")
-
 end
 ------------------------------------------------------------------------------------------
 function GetStatus(device)
-
     local zone = findZone(device)
     local prefix = (zone ~= "ZM") and zone or "ZM"
     AVRReceiverSend(prefix .. "?")
-
 end
 ------------------------------------------------------------------------------------------
 function setMasterPower(status)
-
     for k, v in pairs(luup.devices) do
         if(v.device_num_parent == avr_rec_dev or k == avr_rec_dev) then
             debug("setMasterPower: Device:" .. k)
             luup.variable_set(DEN_SID,"PowerStatus", status, k)
         end
     end
-
 end
 -----------------------------------------------------------------------------------
 function setVolume(device, volume)
-
     local zone = findZone(device)
     local prefix = (zone ~= "ZM") and zone or "MV"
-        if ((tonumber(volume)) ~= nil) then
-        volume = normaliseVolume(device, tonumber(volume))
-        AVRReceiverSend(prefix .. volume)
+    if ((tonumber(volume)) ~= nil) then
+      volume = normaliseVolume(device, tonumber(volume))
+      AVRReceiverSend(prefix .. volume)
     else
-        volume = (volume == "UP") and "UP" or "DOWN"
-        AVRReceiverSend(prefix .. volume)
+      volume = (volume == "UP") and "UP" or "DOWN"
+      AVRReceiverSend(prefix .. volume)
     end
-
 end
 ------------------------------------------------------------------------------------------
 function setVolumeDB(device, volumeDB)
