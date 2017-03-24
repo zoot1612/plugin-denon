@@ -831,7 +831,7 @@ function receiverStartup(lul_device)
     
   setInitialParameters(avr_rec_dev)
         
-  if (setupStatus == "" or setupStatus == "0") then
+  if (setupStatus ~= "1") then
     
     local ui7Check = luup.variable_get(DEN_SID, "UI7Check", avr_rec_dev) or ""
       if ui7Check == "" then
@@ -855,7 +855,7 @@ function receiverStartup(lul_device)
 
     local pollFreq = luup.variable_get(DEN_SID, "PollFreq", avr_rec_dev) or ""
     if (pollFreq == "" or pollFreq == "0") then
-        luup.variable_set(DEN_SID, "PollFreq",  POLL, avr_rec_dev)
+      luup.variable_set(DEN_SID, "PollFreq",  POLL, avr_rec_dev)
     end
 
     --luup.call_delay("checkConnection", 60, "")
