@@ -1,4 +1,4 @@
-local VERSION = "1.278"
+local VERSION = "1.282"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -20,7 +20,6 @@ local INCR = 0.5
 local DEFAULT_VOLUME = 25
 local DEFAULT_RAMP_TIME = 17
 local DEBUG_MODE = true
-local POLL = "24h"
 local g_sourceName = {}
 local g_zones = {}
 local g_tuner = {}
@@ -133,9 +132,8 @@ function AVRReceiverSend(command)
     local dataSize = string.len(command)
     if(not(assert(dataSize > 0 and dataSize <= 135))) then return false end
     if (luup.io.write(command) == false) then
-        log("AVRReceiverSend: cannot send command " .. command .. " communications error", 1)
-        luup.set_failure(true, avr_rec_dev)
-        return false
+      log("AVRReceiverSend: cannot send command " .. command .. " communications error", 1)
+      return false
     end
     log("AVRReceiverSend: command sent " .. command .. ".", 1)
     return true
@@ -259,7 +257,7 @@ function get_source(input_source)
 
     for k, v in pairs(g_sourceName) do
         local source = (g_sourceName[k]["source"])
-        debug("get_source: " .. input_source  .. " " .. k .. " " .. source,1)
+        debug("get_source: " .. input_source  .. " " .. k .. " " .. (source or ""), 1)
         if source == input_source then
             return k
         end
@@ -365,10 +363,6 @@ function handleResponse(data)
             msgType = data:sub(1,2)
             data = data:sub(3)
         end
-
-    elseif(data:match("^R[%d].*")) then
-        msgType = "RR"
-        msgZone = avr_rec_dev
 
     else
         msgType = data:sub(1,2)
@@ -528,21 +522,6 @@ local RECEIVER_RESPONSES = {
         end
     },
 
-    ["RR"] = {
-    description = "zone names",
-    handlerFunc = function (self, data, msgZone)
-            data = trim(data)
-            local zone = tonumber(data:sub(2,2))
-            local zonePrefix = data:sub(1,2)
-            local zoneName = trim(data:sub(3))
-            zoneName = zoneName ~= '' and zoneName or zonePrefix
-            debug(self.description .. ": Zone Prefix:_" .. zonePrefix .. "_ Zone Name:_".. zoneName .. "_.")
-            g_zones[zone] = zoneName
-            --listTable(g_zones)
-            return true
-        end
-    },
-
     ["TF"] = {
     description = "tuner frequency",
     handlerFunc = function (self, data, msgZone)
@@ -666,18 +645,18 @@ function processInterceptedMessage(command)
 
     command = command:sub(1,2)
     while true do
-        data = luup.io.read(3,avr_rec_dev)
-        if (data ~= nil) then
-            local result = (data:sub(1,1) == 'R') and 'RR' or data:sub(1,2)
-            if (command ~= result) then
-                debug("processInterceptedMessage:(command ~= result)  result:" .. result .. " command:" .. command .. ".",1)
-                luup.io.intercept()
-                handleResponse(data)
-            else
-                debug("processInterceptedMessage: result:" .. result .. " command:" .. command .. ".",1)
-                return handleResponse(data)
-            end
+      data = luup.io.read(avr_rec_dev)
+      if (data ~= nil) then
+        local result = data:sub(1,2)
+        if (command ~= result) then
+          debug("processInterceptedMessage:(command ~= result)  result:" .. result .. " command:" .. command .. ".",1)
+          luup.io.intercept()
+          handleResponse(data)
+        else
+          debug("processInterceptedMessage: result:" .. result .. " command:" .. command .. ".",1)
+          return handleResponse(data)
         end
+      end
     end
     return false
 
@@ -687,7 +666,6 @@ function AVRReceiverSendIntercept(command)
 
     local dataSize = string.len(command)
     if(not(assert(dataSize > 0 and dataSize <= 135))) then return false end
-    luup.sleep(350)
     luup.io.intercept()
     if (luup.io.write(command) == false) then
         log("AVRReceiverSend: cannot send command " .. command .. " communications error", 1)
@@ -703,57 +681,39 @@ end
 ------------------------------------------------------------------------------------------
 local function createZones(avr_rec_dev)
 
-    log("createZones: Starting")
+  log("createZones: Starting")
 
-    child_devices = luup.chdev.start(avr_rec_dev)
-
-    local detected_model = luup.attr_get("model", avr_rec_dev)
+    local detected_model = luup.attr_get("model", avr_rec_dev) or ""
     local modelNumber = string.match(detected_model, "%d+")
     local manual_zones = luup.variable_get(DEN_SID, "Zones", avr_rec_dev)
     local zones = ""
 
-    if (not manual_zones or manual_zones == "") then
-        luup.variable_set(DEN_SID, "Zones",  "", avr_rec_dev)
+    if(detected_model == "") then
+      luup.attr_set("name", (detected_model or "AVR") .. '_' .. ((g_zones[1]) or "main"), avr_rec_dev)
     end
 
-    if(manual_zones == "") then
-      zones = (MODEL[modelNumber] ~= nil) and MODEL[modelNumber].zones or ""
-    else
-      zones = manual_zones or ""
+    local manual_zones = luup.variable_get(DEN_SID, "Zones", avr_rec_dev) or ""
+    if (manual_zones == "") then
+      luup.variable_set(DEN_SID, "Zones",  "None", avr_rec_dev)
     end
-
-    for zone_num in zones:gmatch("%d+") do
+    
+    zones = (MODEL[modelNumber] ~= nil) and MODEL[modelNumber].zones or (manual_zones)
+    
+    if zones ~= "none" then 
+      child_devices = luup.chdev.start(avr_rec_dev)
+      
+      for zone_num in zones:gmatch("%d+") do
         local autoName = g_zones[tonumber(zone_num)]
         zoneName = (detected_model or 'AVR') .. '_' .. (autoName or zone_num)
         DEVICEFILE_DENON_AVR_CONTROL = luup.attr_get("device_file", avr_rec_dev)
         luup.chdev.append(avr_rec_dev,child_devices, "Z" .. zone_num,zoneName,DEVICETYPE_DENON_AVR_CONTROL,DEVICEFILE_DENON_AVR_CONTROL,"I_DenonReceiver1.xml","",false)
         debug("createZone: Zone number:" .. zone_num .. " Zone name:" .. zoneName .. ".",1)
-    end
+      end
 
     luup.chdev.sync(avr_rec_dev,child_devices)
-
+  end
+  
   return true
-
-end
-
-------------------------------------------------------------------------------------------
---Connection check
-------------------------------------------------------------------------------------------
-function checkConnection()
-
-    if (luup.io.is_connected(avr_rec_dev) == false) then
-        debug( "io.is_connected is false - AVR no longer connected, attempt to reconnect")
-        status = connectionType()
-            if (status == true) then
-                debug( "Re-connect attempt successful")
-                luup.set_failure(false, avr_rec_dev)
-                clearStatusMessage()
-            end
-            task("Re-connect attempt un-successful", TASK_ERROR_PERM)
-    else
-        debug( "Connection currently OK",1)
-    end
-    luup.call_timer("checkConnection", 1, POLL, "", "")
 
 end
 ------------------------------------------------------------------------------------------
@@ -787,83 +747,82 @@ end
 function receiverStartup(lul_device)
 
   log(":AVR Plugin version " .. VERSION .. ".")
-    avr_rec_dev = lul_device
+  avr_rec_dev = lul_device
 
-    luup.attr_set("altid", "ZM", avr_rec_dev)
+  luup.attr_set("altid", "ZM", avr_rec_dev)
 
-    local cj = require("createJSON")
+  local cj = require("createJSON")
 
   if (not connectionType()) then
+    debug("receiverStartup: Connection failed please check")
     return false, "Communications error", "AVR Receiver"
   end
-  luup.set_failure(false, avr_rec_dev)
+  
+  AVRReceiverSendIntercept("SSFUN ?")
 
-  --Set initial power status
-  luup.variable_set(SWP_SID,SWP_STATUS,"0",avr_rec_dev)
-
-  --Returns power status.
-  if (not AVRReceiverSendIntercept("SSFUN ?")) then
-    return false, "Device not currently available", "AVR Receiver"
-  end
-
+  AVRReceiverSendIntercept("PW?")
+  
   AVRReceiverSendIntercept("SYMO")
-
-  local numberOfZones = 0
-
-  local detected_model = luup.attr_get("model", avr_rec_dev)
-  local modelNumber =  string.match(detected_model, "%d+")
-
-  if MODEL[modelNumber] ~= nil then
-    local zones = MODEL[modelNumber].zones or ""
-    for zones in zones:gmatch("%d+") do numberOfZones = numberOfZones + 1 end
-      AVRReceiverSendIntercept("PW?")
-      createZones(avr_rec_dev)
-    else
-      AVRReceiverSendIntercept("PW?")
+  
+  local extra_inputs = luup.variable_get(DEN_SID, "Inputs", avr_rec_dev) or ""
+  if extra_inputs == "" then
+    luup.variable_set(DEN_SID, "Inputs", "None", avr_rec_dev)
+  end
+ 
+  if (extra_inputs ~= "None") then
+    for input in extra_inputs:gmatch("%S+") do
+      local name
+      input, name = input:match("(.+)=(.+)")
+      print(input, name)
+      table.insert(g_sourceName,({["source"] = input,["name"] = name}))
     end
+  else
+    debug("receiverStartup: No extra connections specified")
+  end
+  
+  createZones(avr_rec_dev)
     
   local setupStatus = luup.variable_get(DEN_SID, "Setup", avr_rec_dev) or ""
-  local version = luup.variable_get(DEN_SID,"Version",avr_rec_dev) or 0
+  if(setupStatus == "") then
+    debug("receiverStartup: XML templates will be updated")
+    luup.variable_set(DEN_SID, "Setup", "0", avr_rec_dev)
+  end
+  
+  local version = luup.variable_get(DEN_SID,"Version", avr_rec_dev) or 0
+
   if(tonumber(VERSION) > tonumber(version)) then
+    debug("Current version " .. tonumber(version) .. " out of date, updating XML templates for version " .. tonumber(VERSION) ..".")
     setupStatus = "0"
-    luup.variable_set(DEN_SID,"Version",VERSION,avr_rec_dev)
+    luup.variable_set(DEN_SID,"Version", VERSION, avr_rec_dev)
   end
     
-  setInitialParameters(avr_rec_dev)
-        
-  if (setupStatus ~= "1") then
-    
+  if setupStatus ~= "1" then
     local ui7Check = luup.variable_get(DEN_SID, "UI7Check", avr_rec_dev) or ""
-      if ui7Check == "" then
-        luup.variable_set(DEN_SID, "UI7Check", "false", avr_rec_dev)
-        ui7Check = "false"
-        debug("UI7 check for device " .. avr_rec_dev)
-      end
+    if ui7Check == "" then
+      debug("UI7 check for device " .. avr_rec_dev)
+      luup.variable_set(DEN_SID, "UI7Check", "false", avr_rec_dev)
+      ui7Check = "false"
+    end
 	    
-      if( luup.version_branch == 1 and luup.version_major == 7 and ui7Check == "false") then
-        luup.variable_set(DEN_SID, "UI7Check", "true", avr_rec_dev)
-        ui7Check = "true"
-        luup.attr_set("device_json", "D_DenonReceiver1_UI7.json", avr_dev)
-      end
+    if( luup.version_branch == 1 and luup.version_major == 7 and ui7Check == "false") then
+      debug("receiverStartup: XML templates will be updated using UI7 templates")
+      luup.variable_set(DEN_SID, "UI7Check", "true", avr_rec_dev)
+      ui7Check = "true"
+      luup.attr_set("device_json", "D_DenonReceiver1_UI7.json", avr_dev)
+    end
     
-      luup.attr_set("name", (detected_model or "AVR") .. '_' .. ((g_zones[1]) or "main"), avr_rec_dev)
-      local status = cj.create_static_json(g_sourceName, avr_rec_dev, ui7Check)
-      if (status == true) then
-        luup.variable_set(DEN_SID, "Setup",  "1", avr_rec_dev)
-      end
+    local status = cj.create_static_json(g_sourceName, avr_rec_dev, ui7Check)
+    if (status == true) then
+      debug("receiverStartup: XML templates have been updated")
+      luup.variable_set(DEN_SID, "Setup",  "1", avr_rec_dev)
     end
+  end
 
-    local pollFreq = luup.variable_get(DEN_SID, "PollFreq", avr_rec_dev) or ""
-    if (pollFreq == "" or pollFreq == "0") then
-      luup.variable_set(DEN_SID, "PollFreq",  POLL, avr_rec_dev)
-    end
+  setInitialParameters(avr_rec_dev)
 
-    --luup.call_delay("checkConnection", 60, "")
-    --luup.variable_set(DEN_SID,"Source","Input"..source,msgZone)
-    --luup.register_handler("callbackHandler", "tuner")
-    --luup.register_handler("callbackHandler", "xm")
-
-    return true, "Startup successful.", "AVR Receiver"
+  luup.set_failure(false, avr_rec_dev)
+  debug("receiverStartup: Successful")
+  return true, "Startup successful.", "AVR Receiver"
 
 end
 
