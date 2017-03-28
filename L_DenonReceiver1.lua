@@ -689,7 +689,7 @@ local function createZones(avr_rec_dev)
     local zones = ""
 
     if(detected_model == "") then
-      luup.attr_set("name", (detected_model or "AVR") .. '_' .. ((g_zones[1]) or "main"), avr_rec_dev)
+      luup.attr_set("name", detected_model .. '_' .. ((g_zones[1]) or "main"), avr_rec_dev)
     end
 
     local manual_zones = luup.variable_get(DEN_SID, "Zones", avr_rec_dev) or ""
