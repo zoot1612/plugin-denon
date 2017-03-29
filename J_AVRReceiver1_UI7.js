@@ -1,6 +1,6 @@
 var AVR = (function(api)
 {
-	var uuid = 'E451565B-B468-4E9E-8981-30DB4FD16F71';
+	var uuid = 'F451565C-C468-4E9E-8981-30DB4FD16F71';
 	var myModule = {};
 	var device = api.getCpanelDeviceId();
 	
