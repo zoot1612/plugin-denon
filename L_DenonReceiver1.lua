@@ -1,4 +1,10 @@
-local VERSION = "1.282"
+--[[
+Plugin requires the following basic parameters before successful launch
+ip = 192.168.0.138
+device_file = D_DenonReceiver1.xml
+impl_file = I_DenonReceiver1.xml
+]]--
+local VERSION = "1.29"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -21,7 +27,6 @@ local DEFAULT_VOLUME = 25
 local DEFAULT_RAMP_TIME = 17
 local DEBUG_MODE = true
 local g_sourceName = {}
-local g_zones = {}
 local g_tuner = {}
 local g_xm = {}
 
@@ -34,21 +39,16 @@ local TASK_BUSY       = 1
 local g_taskHandle = -1
 ------------------------------------------------------------------------------------------
 local function log (text,level)
-
   luup.log("AVRReceiverPlugin::" .. text,level or 50)
-
 end
 ------------------------------------------------------------------------------------------
 function debug (text,level)
-
   if (DEBUG_MODE == true) then
-    log(text,level or 1)
+    log(text, level or 1)
   end
-
 end
 ------------------------------------------------------------------------------------------
 function task (text, mode)
-
   log("task: ".. text)
   if (mode == TASK_ERROR_PERM) then
     luup.task(text, TASK_ERROR, "AVR Plugin", g_taskHandle)
@@ -60,32 +60,24 @@ function task (text, mode)
       luup.call_delay("clearStatusMessage", 30)
     end
   end
-
 end
 ------------------------------------------------------------------------------------------
 function clearStatusMessage()
-
   luup.task("Clearing...", TASK_SUCCESS, "AVR Plugin", g_taskHandle)
   return true
-
 end
 ------------------------------------------------------------------------------------------
 local function trim(s)
-
   return s:match "^%s*(.-)%s*$"
-
 end
 ------------------------------------------------------------------------------------------
 local function listTable(table)
-
     for k, v in pairs(table) do
         debug('listTable: key: _' .. k .. ' value: _' .. v .. '.')
     end
-
 end
 ------------------------------------------------------------------------------------------
 local function normaliseVolume(device, volume)
-
   local current_volume = tonumber(luup.variable_get(REN_SID,"Volume",device),10)
   local min_vol = (device == avr_rec_dev) and MIN_VOL or MIN_VOL_ZONE
   volume = (volume <= min_vol) and min_vol or ((volume >= MAX_VOL) and MAX_VOL or volume)
@@ -93,11 +85,9 @@ local function normaliseVolume(device, volume)
   frac = ((device == avr_rec_dev) and (string.format("%.1f", frac) == "0.5")) and "5" or ""
   debug("setVolume: current volume: " .. current_volume .. " new volume: " .. volume .. ".")
   return (string.format("%02i", quant)..frac)
-
 end
 ------------------------------------------------------------------------------------------
 function AVRReceiverSend(command)
-
     local dataSize = string.len(command)
     if(not(assert(dataSize > 0 and dataSize <= 135))) then return false end
     if (luup.io.write(command) == false) then
@@ -106,7 +96,6 @@ function AVRReceiverSend(command)
     end
     log("AVRReceiverSend: command sent " .. command .. ".", 1)
     return true
-
 end
 ------------------------------------------------------------------------------------------
 function setMute(device, mute)
@@ -149,7 +138,6 @@ function setVolume(device, volume)
 end
 ------------------------------------------------------------------------------------------
 function setVolumeDB(device, volumeDB)
-
     local zone = findZone(device)
     local prefix = (zone ~= "ZM") and zone or "MV"
     local volume = volumeDB + 80
@@ -157,11 +145,9 @@ function setVolumeDB(device, volumeDB)
         volume = normaliseVolume(device, tonumber(volume))
         AVRReceiverSend(prefix .. volume)
     end
-
 end
 ------------------------------------------------------------------------------------------
 function rampToVolume(device, settings)
-
   local desiredVolume = settings.DesiredVolume
   
   local resetVolumeAfter = settings.ResetVolumeAfter
@@ -211,19 +197,15 @@ function rampToVolume(device, settings)
     lul_arguments["DesiredVolume"] = i
     luup.call_action(REN_SID, "SetVolume", lul_arguments, device)
   end
-
 end
 ------------------------------------------------------------------------------------------
 function getVolume(device)
-
     local zone = findZone(device)
     local prefix = (zone ~= "ZM") and zone or "MV"
     AVRReceiverSend(prefix .. '?')
-
 end
 ------------------------------------------------------------------------------------------
 function get_source(input_source)
-
     for k, v in pairs(g_sourceName) do
         local source = (g_sourceName[k]["source"])
         debug("get_source: " .. input_source  .. " " .. k .. " " .. (source or ""), 1)
@@ -231,13 +213,10 @@ function get_source(input_source)
             return k
         end
     end
-
     return false
-
 end
 ------------------------------------------------------------------------------------------
 function setInput(device, input_no)
-
     local zone = findZone(device)
     local prefix = (zone ~= "ZM") and zone or "SI"
     local source = ""
@@ -253,19 +232,15 @@ function setInput(device, input_no)
     if(source ~= false) then
         AVRReceiverSend(prefix .. source)
     end
-
 end
 ------------------------------------------------------------------------------------------
 function getInput(device)
-
     local DeviceAltId = tostring(luup.devices[device].id)
     local prefix = (zone ~= "ZM") and DeviceAltId or "SI"
     AVRReceiverSend(prefix .. '?')
-
 end
 ------------------------------------------------------------------------------------------
 function tablePrint(table, format)
-
   local jsonString = '{\"PRESETS\": ['
 
   local xmlString = '<?xml version=\"1.0\" encoding=\"UTF-8\"?><PRESETS>'
@@ -280,11 +255,9 @@ function tablePrint(table, format)
   xmlString = xmlString .. "</PRESETS>"
   local string = format == "json" and jsonString or xmlString
   return string
-
 end
 ------------------------------------------------------------------------------------------
 function callbackHandler(lul_request, lul_parameters, lul_outputformat)
-
   local functionName = "callbackHandler"
 
   if (lul_request == "tuner") then
@@ -292,11 +265,9 @@ function callbackHandler(lul_request, lul_parameters, lul_outputformat)
   elseif (lul_request == "xm") then
     return tablePrint(g_xm, lul_outputformat)
   end
-
 end
 ------------------------------------------------------------------------------------------
 function handleResponse(data)
-
     log("handleResponse: data received " .. data)
     local msgFrom = data:sub(1,1)
     local msgType = data:sub(1,2)
@@ -344,11 +315,9 @@ function handleResponse(data)
     log("handleResponse: Data:" .. data .. ' Type:' .. msgType .. ' Zone:' .. msgZone)
     processMessage (data, msgType, msgZone)
     return true
-
 end
 ------------------------------------------------------------------------------------------
 local RECEIVER_RESPONSES = {
-
         ["MV"] = {
         description = "Volume level change",
         handlerFunc = function (self, data, msgZone)
@@ -523,12 +492,10 @@ local RECEIVER_RESPONSES = {
             return true
         end
     }
-
 }
 
 ------------------------------------------------------------------------------------------
 function processMessage (data, msgType, msgZone)
-
     log("processMessage: Data:" .. data .. ' Type:' .. msgType .. ' Zone:' .. msgZone)
 
     if (not msgType) then
@@ -551,33 +518,27 @@ function processMessage (data, msgType, msgZone)
     end
 
     return response:handlerFunc (data, msgZone)
-
 end
 
 ------------------------------------------------------------------------------------------
 
 local function checkMessage (msg)
-
     if (not msg or msg == "") then
         log("checkMessage: ERROR: Empty message.")
         return nil
     end
-
 end
 
 ------------------------------------------------------------------------------------------
 function findZone (lul_device)
-
     log("Trying to find zone for device: " .. lul_device)
     local DeviceAltId = tostring(luup.devices[lul_device].id)
     local ParentDevice = tostring(luup.devices[lul_device].device_num_parent)
     debug("DeviceID: " .. lul_device .. ", Parent:"..ParentDevice .. ", Zone: " .. DeviceAltId)
     return DeviceAltId
-
 end
 ------------------------------------------------------------------------------------------
 local function setInitialParameters(avr_rec_dev)
-
     AVRReceiverSendIntercept("MS?")
     AVRReceiverSendIntercept("SI?")
     AVRReceiverSendIntercept("SV?")
@@ -592,11 +553,9 @@ local function setInitialParameters(avr_rec_dev)
           debug("createZone: Device number:" .. k .. " Device name:" .. v.id .. ".",1)
         end
     end
-
 end
 ------------------------------------------------------------------------------------------
 function findChild(label)
-
     if(label == "ZM") then return avr_rec_dev end
 
     for k, v in pairs(luup.devices) do
@@ -607,11 +566,9 @@ function findChild(label)
     end
 
     return false
-
 end
 ------------------------------------------------------------------------------------------
 function processInterceptedMessage(command)
-
     command = command:sub(1,2)
     while true do
       data = luup.io.read(avr_rec_dev)
@@ -628,11 +585,9 @@ function processInterceptedMessage(command)
       end
     end
     return false
-
 end
 ------------------------------------------------------------------------------------------
 function AVRReceiverSendIntercept(command)
-
     local dataSize = string.len(command)
     if(not(assert(dataSize > 0 and dataSize <= 135))) then return false end
     luup.io.intercept()
@@ -649,7 +604,6 @@ end
 --Zone Creation
 ------------------------------------------------------------------------------------------
 local function createZones(avr_rec_dev)
-
   log("createZones: Starting")
 
     local detected_model = luup.attr_get("model", avr_rec_dev) or ""
@@ -674,13 +628,11 @@ local function createZones(avr_rec_dev)
     end
   
   return true
-
 end
 ------------------------------------------------------------------------------------------
 --Connection Setup
 ------------------------------------------------------------------------------------------
 local function connectionType()
-
   local ip = luup.devices[avr_rec_dev].ip or ""
 
   if (ip == "") then
@@ -699,13 +651,11 @@ local function connectionType()
   end
 
   return true
-
 end
 ------------------------------------------------------------------------------------------
 --Start Up
 ------------------------------------------------------------------------------------------
 function receiverStartup(lul_device)
-
   log(":AVR Plugin version " .. VERSION .. ".")
   avr_rec_dev = lul_device
 	
@@ -782,6 +732,5 @@ function receiverStartup(lul_device)
   luup.set_failure(false, avr_rec_dev)
   debug("receiverStartup: Successful")
   return true, "Startup successful.", "AVR Receiver"
-
 end
 
