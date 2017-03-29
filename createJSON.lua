@@ -1124,7 +1124,7 @@ end
 	  outf:write( '					]\n' )
 	  outf:write( '				}\n' )
 	  outf:write( '			],\n' )
-	  outf:write( '			"DeviceType": "urn:schemas-denon-com:device:receiver:1"\n' )
+	  outf:write( '			"device_type": "urn:schemas-denon-com:device:receiver:1"\n' )
 	  outf:write( '		}\n' )
 
 	outf:close()
