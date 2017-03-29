@@ -33,6 +33,8 @@ var AVR = (function(api)
 	    '<table width="100%" style="border-collapse: collapse"><tbody><tr><td id="wemo_saveChanges_text" style= "font-weight: bold; text-align: center;"></td><td id="wemo_saveChanges_button" style= "text-align: center;"></td></tr></tbody>';
 	  html +=
 	    '</table>';
+	  html +=
+	    '<input type= "button" value= "Reset" class="btn1" onclick="doReload(' + device + ')"/></form>';
 	}
 
 	myModule = {
