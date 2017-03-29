@@ -25,37 +25,6 @@ local g_zones = {}
 local g_tuner = {}
 local g_xm = {}
 
-local MODEL = {
-    ['300'] = {},
-    ['400'] = {zones = "2"},
-    ['1000'] = {zones = "2"},
-    ['1603'] = {zones = "2"},                  -- Marantz NR1603USA
-    ['1713'] = {zones = "2"},
-    ['1913'] = {zones = "2"},
-    ['2000'] = {zones = "2"},
-    ['2106'] = {zones = "2"},
-    ['2112'] = {zones = "2"},
-    ['2307'] = {zones = "1"},
-    ['2803'] = {zones = "1"},
-    ['2805'] = {zones = "2"},
-    ['2807'] = {zones = "2"},
-    ['3000'] = {zones = "2"},
-    ['3312'] = {zones = "2,3"},
-    ['3313'] = {zones = "2,3"},
-    ['3803'] = {zones = "1"},
-    ['3805'] = {zones = "1,2"},
-    ['3806'] = {zones = "2,3"},
-    ['3808'] = {zones = "2,3"},{zoneAutoName}, -- autoName not used
-    ['4000'] = {zones = "2,3"},
-    ['4300'] = {zones = "2,3"},
-    ['4306'] = {zones = "2,3"},
-    ['4520'] = {zones = "2,3,4"},
-    ['4802'] = {zones = "1"},
-    ['4806'] = {zones = "2,3"},
-    ['5803'] = {zones = "1,2"},
-    ['5805'] = {zones = "2,3,4"}
-}
-
 local avr_rec_dev = nil
 
 local TASK_ERROR      = 2
@@ -684,34 +653,25 @@ local function createZones(avr_rec_dev)
   log("createZones: Starting")
 
     local detected_model = luup.attr_get("model", avr_rec_dev) or ""
-    local modelNumber = string.match(detected_model, "%d+")
     local manual_zones = luup.variable_get(DEN_SID, "Zones", avr_rec_dev)
-    local zones = ""
-
-    if(detected_model == "") then
-      luup.attr_set("name", detected_model .. '_' .. ((g_zones[1]) or "main"), avr_rec_dev)
-    end
 
     local manual_zones = luup.variable_get(DEN_SID, "Zones", avr_rec_dev) or ""
     if (manual_zones == "") then
       luup.variable_set(DEN_SID, "Zones",  "None", avr_rec_dev)
     end
     
-    zones = (MODEL[modelNumber] ~= nil) and MODEL[modelNumber].zones or (manual_zones)
-    
     if zones ~= "none" then 
       child_devices = luup.chdev.start(avr_rec_dev)
-      
       for zone_num in zones:gmatch("%d+") do
-        local autoName = g_zones[tonumber(zone_num)]
-        zoneName = (detected_model or 'AVR') .. '_' .. (autoName or zone_num)
+        zoneName = (detected_model or 'AVR') .. '_' .. zone_num
         DEVICEFILE_DENON_AVR_CONTROL = luup.attr_get("device_file", avr_rec_dev)
         luup.chdev.append(avr_rec_dev,child_devices, "Z" .. zone_num,zoneName,DEVICETYPE_DENON_AVR_CONTROL,DEVICEFILE_DENON_AVR_CONTROL,"I_DenonReceiver1.xml","",false)
         debug("createZone: Zone number:" .. zone_num .. " Zone name:" .. zoneName .. ".",1)
       end
-
     luup.chdev.sync(avr_rec_dev,child_devices)
-  end
+    else
+      debug("createZone: Zone number: No zones to create.",1)	
+    end
   
   return true
 
@@ -748,21 +708,20 @@ function receiverStartup(lul_device)
 
   log(":AVR Plugin version " .. VERSION .. ".")
   avr_rec_dev = lul_device
-
-  luup.attr_set("altid", "ZM", avr_rec_dev)
-
-  local cj = require("createJSON")
-
+	
   if (not connectionType()) then
     debug("receiverStartup: Connection failed please check")
     return false, "Communications error", "AVR Receiver"
   end
+	
+  AVRReceiverSendIntercept("SYMO")
+  luup.attr_set("altid", "ZM", avr_rec_dev)
+
+  local cj = require("createJSON")
   
   AVRReceiverSendIntercept("SSFUN ?")
 
   AVRReceiverSendIntercept("PW?")
-  
-  AVRReceiverSendIntercept("SYMO")
   
   local extra_inputs = luup.variable_get(DEN_SID, "Inputs", avr_rec_dev) or ""
   if extra_inputs == "" then
