@@ -978,7 +978,7 @@ end
 	  outf:write( '				"Position": "1",\n' )
 	  outf:write( '				"TabType": "javascript",\n' )
 	  outf:write( '				"ScriptName": "J_AVRReceiver1_UI7.js",\n' )
-	  outf:write( '				"Function": "AVR.configuration"\n' )
+	  outf:write( '				"Function": "avr.configuration"\n' )
 	  outf:write( '				},\n' )
 	
 	  outf:write( '				{\n' )
