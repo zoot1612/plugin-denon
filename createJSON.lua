@@ -991,7 +991,7 @@ end
 	  outf:write( '				"ScriptName": "shared.js",\n' )
 	  outf:write( '				"Function": "advanced_device"\n' )
 	  outf:write( '				},\n' )
-
+--[[
 
 
 	  outf:write( '				{\n' )
@@ -1015,6 +1015,7 @@ end
 	  outf:write( '				"ScriptName": "shared.js",\n' )
 	  outf:write( '				"Function": "device_notifications"\n' )
 	  outf:write( '			}],\n' )
+	]]--
 ------
 	  outf:write( '			"sceneList": {\n' )
 	  outf:write( '				"group_1": {\n' )
