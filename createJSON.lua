@@ -1002,7 +1002,7 @@ end
 	    outf:write( '				"Position": "3",\n' )
 	    outf:write( '				"TabType": "javascript",\n' )
 	    outf:write( '				"ScriptName": "J_AVRReceiver1_UI7.js",\n' )
-	    outf:write( '				"Function": "AVR.doReload"\n' )
+	    outf:write( '				"Function": "AVR.configuration"\n' )
 	    outf:write( '				},\n' )
     else
 	    outf:write( '				{\n' )
