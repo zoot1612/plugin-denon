@@ -29,8 +29,10 @@ var AVR = (function(api)
 	function configuration(device)
 	{
 	  var html = '';
-	  html += '<table width="100%" style="border-collapse: collapse"><tbody><tr><td id="wemo_saveChanges_text" style= "font-weight: bold; text-align: center;"></td><td id="wemo_saveChanges_button" style= "text-align: center;"></td></tr></tbody>';
-	  html += </table>';
+	  html +=
+	    '<table width="100%" style="border-collapse: collapse"><tbody><tr><td id="wemo_saveChanges_text" style= "font-weight: bold; text-align: center;"></td><td id="wemo_saveChanges_button" style= "text-align: center;"></td></tr></tbody>';
+	  html +=
+	    '</table>';
 	}
 
 	myModule = {
