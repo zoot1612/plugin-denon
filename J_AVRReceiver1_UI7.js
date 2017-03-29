@@ -47,25 +47,6 @@ var AVR = (function(api)
 		}
 	}
 
-	function setDeviceStateVariable(DEVICE, SID, VARIABLE, VALUE, TRASH)
-	{
-		api.setDeviceStatePersistent(DEVICE, SID, VARIABLE, VALUE,
-		{
-			'onSuccess': function()
-			{
-				ShowStatus('Data updated, Reload LuuP Engine  to commit changes.',
-					false);
-			},
-			'onFailure': function()
-			{
-				ShowStatus(
-					'Failed to update data, Reload LuuP Engine and try again.',
-					true);
-			}
-		});
-	}
-	
-
 	function doReload(device)
 	{
 		var requestURL = data_request_url + 'id=lu_action';
