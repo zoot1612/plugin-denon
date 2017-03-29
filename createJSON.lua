@@ -996,8 +996,8 @@ end
     if ui7Check == "true" then
 	    outf:write( '				{\n' )
 	    outf:write( '				"Label": {\n' )
-	    outf:write( '					"lang_tag": "device_options",\n' )
-	    outf:write( '					"text": "Device Options"\n' )
+	    outf:write( '					"lang_tag": "configuration",\n' )
+	    outf:write( '					"text": "Configuration"\n' )
 	    outf:write( '				},\n' )
 	    outf:write( '				"Position": "3",\n' )
 	    outf:write( '				"TabType": "javascript",\n' )
