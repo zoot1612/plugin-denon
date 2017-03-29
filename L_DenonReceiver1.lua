@@ -1,9 +1,3 @@
---[[
-Plugin requires the following basic parameters before successful launch
-ip = 192.168.0.138
-device_file = D_DenonReceiver1.xml
-impl_file = I_DenonReceiver1.xml
-]]--
 local VERSION = "1.29"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
