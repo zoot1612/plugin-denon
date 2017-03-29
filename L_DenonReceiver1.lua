@@ -601,16 +601,14 @@ local function createZones(avr_rec_dev)
   log("createZones: Starting")
 
     local detected_model = luup.attr_get("model", avr_rec_dev) or ""
-    local manual_zones = luup.variable_get(DEN_SID, "Zones", avr_rec_dev)
-
     local manual_zones = luup.variable_get(DEN_SID, "Zones", avr_rec_dev) or ""
     if (manual_zones == "") then
       luup.variable_set(DEN_SID, "Zones",  "None", avr_rec_dev)
     end
     
-    if zones ~= "none" then 
+    if manual_zones ~= "none" then 
       child_devices = luup.chdev.start(avr_rec_dev)
-      for zone_num in zones:gmatch("%d+") do
+      for zone_num in manual_zones:gmatch("%d+") do
         zoneName = (detected_model or 'AVR') .. '_' .. zone_num
         DEVICEFILE_DENON_AVR_CONTROL = luup.attr_get("device_file", avr_rec_dev)
         luup.chdev.append(avr_rec_dev,child_devices, "Z" .. zone_num,zoneName,DEVICETYPE_DENON_AVR_CONTROL,DEVICEFILE_DENON_AVR_CONTROL,"I_DenonReceiver1.xml","",false)
