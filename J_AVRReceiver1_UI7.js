@@ -3,13 +3,7 @@ var AVR = (function(api)
 	var uuid = 'E451565B-B468-4E9E-8981-30DB4FD16F71';
 	var myModule = {};
 	var device = api.getCpanelDeviceId();
-
-	function onBeforeCpanelClose(args)
-	{
-		// do some cleanup...
-		console.log('handler for before cpanel close');
-	}
-
+	
 	function init()
 	{
 		// register to events...
@@ -17,46 +11,26 @@ var AVR = (function(api)
 			'onBeforeCpanelClose');
 	}
 
-	function ShowStatus(text, error)
+	function onBeforeCpanelClose(args)
 	{
-		var html = '';
-		html =
-			'<input type="button" value="Reload Luup" onClick="AVR.doReload()"/>';
-
-		if (!error)
-		{
-			document.getElementById("avr_saveChanges_text")
-				.style.backgroundColor = "#00A652";
-			document.getElementById("avr_saveChanges_text")
-				.innerHTML = text;
-			document.getElementById("avr_saveChanges_button")
-				.style.backgroundColor = "#00A652";
-			document.getElementById("avr_saveChanges_button")
-				.innerHTML = html;
-		}
-		else
-		{
-			document.getElementById("avr_saveChanges_text")
-				.style.backgroundColor = "#FF9090";
-			document.getElementById("avr_saveChanges_text")
-				.innerHTML = text;
-			document.getElementById("avr_saveChanges_button")
-				.style.backgroundColor = "#FF9090";
-			document.getElementById("avr_saveChanges_button")
-				.innerHTML = html;
-		}
+		// do some cleanup...
+		console.log('handler for before cpanel close');
 	}
 
 	function doReload(device)
 	{
-		var requestURL = data_request_url + 'id=lu_action';
-		requestURL +=
-			'&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&timestamp=' +
-			new Date()
-			.getTime() + '&action=Reload';
-		var xmlHttp = new XMLHttpRequest();
-		xmlHttp.open("GET", requestURL, false);
-		xmlHttp.send(null);
+	  var requestURL = data_request_url + 'id=lu_action';
+	  requestURL += '&serviceId=urn:micasaverde-com:serviceId:HomeAutomationGateway1&timestamp=' + new Date().getTime() + '&action=Reload';
+	  var xmlHttp = new XMLHttpRequest();
+	  xmlHttp.open("GET", requestURL, false);
+	  xmlHttp.send(null);
+	}
+	
+	function configuration(device)
+	{
+	  var html = '';
+	  html += '<table width="100%" style="border-collapse: collapse"><tbody><tr><td id="wemo_saveChanges_text" style= "font-weight: bold; text-align: center;"></td><td id="wemo_saveChanges_button" style= "text-align: center;"></td></tr></tbody>';
+	  html += </table>';
 	}
 
 	myModule = {
@@ -64,6 +38,7 @@ var AVR = (function(api)
 		init: init,
 		onBeforeCpanelClose: onBeforeCpanelClose,
 		doReload: doReload,
+		configuration: configuration
 	};
 	return myModule;
 })(api);
