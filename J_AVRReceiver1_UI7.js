@@ -1,4 +1,4 @@
-var AVR = (function(api)
+var avr = (function(api)
 {
 	var uuid = 'F451565C-C468-4E9E-8981-30DB4FD16F71';
 	var myModule = {};
