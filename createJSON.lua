@@ -1204,7 +1204,12 @@ end
 	os.execute( 'rm '.. remote_path .. remote_file_xml)
 	os.execute( 'rm '.. remote_path .. template_file)
 	
+	luup.variable_set(DEN_SID, "Setup",  "1", avr_dev)
+	debug("receiverStartup: XML templates have been updated")
+	luup.call_action("urn:micasaverde-com:serviceId:HomeAutomationGateway1", "Reload", {}, 0)
 	return true
+      
+    end
 
 end
 ------------------------------------------------------------------------------------------
