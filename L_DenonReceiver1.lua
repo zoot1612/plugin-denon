@@ -698,6 +698,10 @@ function receiverStartup(lul_device)
     
   if setupStatus ~= "1" then
     local status = cj.create_static_json(g_sourceName, avr_rec_dev)
+    --if (status == true) then
+      --debug("receiverStartup: XML templates have been updated")
+      --luup.variable_set(DEN_SID, "Setup",  "1", avr_rec_dev)
+    --end
   end
 
   setInitialParameters(avr_rec_dev)
