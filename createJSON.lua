@@ -16,9 +16,24 @@ function file_exists(name)
 end
 ------------------------------------------------------------------------------------------
 function create_static_json(input_table, avr_dev, ui7Check)
+	
+	local DEN_SID = "urn:denon-com:serviceId:Receiver1"
+	local ui7Check = luup.variable_get(DEN_SID, "UI7Check", avr_dev) or ""
+	if ui7Check == "" then
+	  debug("UI7 check for device " .. avr_rec_dev)
+	  luup.variable_set(DEN_SID, "UI7Check", "false", avr_dev)
+	  ui7Check = "false"
+	end
+		
+	if( luup.version_branch == 1 and luup.version_major == 7 and ui7Check == "false") then
+	  debug("receiverStartup: XML templates will be updated using UI7 templates")
+	  luup.variable_set(DEN_SID, "UI7Check", "true", avr_rec_dev)
+	  ui7Check = "true"
+	end
 
 	local remote_path = '/etc/cmh-ludl/'
 	local file_name = luup.attr_get('model', avr_dev) or 'DenonReceiver'
+        luup.attr_set("name", file_name .. "_Main", avr_dev)
 	local template_file = 'D_DenonReceiver1.xml'
 	local remote_file_json = 'D_' .. file_name .. '1.json'
 	local remote_file_xml = 'D_' .. file_name .. '1.xml'
@@ -1178,9 +1193,6 @@ end
 	
 	luup.attr_set("device_file",remote_file_xml, avr_dev)
 	luup.attr_set("device_json",remote_file_json, avr_dev)
-	
-        local model = luup.attr_get("model", avr_dev) or "AVR_Main"
-        luup.attr_set("name", model .. "_Main", avr_dev)
 	
 	debug('Set device file to' .. remote_file_xml .. ' for device ' .. avr_dev .. '.')
 
