@@ -1006,7 +1006,8 @@ end
 	  outf:write( '				"ScriptName": "shared.js",\n' )
 	  outf:write( '				"Function": "advanced_device"\n' )
 		outf:write( '				},\n' )
-		
+    
+    if ui7Check == "true" then
 	  outf:write( '			  {\n' )	
 	  outf:write( '				"Label": {\n' )
 	  outf:write( '					"lang_tag": "settings",\n' )
@@ -1014,10 +1015,11 @@ end
 	  outf:write( '				},\n' )
 	  outf:write( '				"Position": "2",\n' )
 	  outf:write( '				"TabType": "javascript",\n' )
-	  outf:write( '				"ScriptName": "shared.js",\n' )
-	  outf:write( '				"Function": "simple_device"\n' )
+	  outf:write( '				"ScriptName": "J_AVRReceiver1_UI7.js",\n' )
+	  outf:write( '				"Function": "avr.configure"\n' )
 		outf:write( '				},\n' )
-				
+    end
+
 		outf:write( '				{\n' )
 	  outf:write( '				"Label": {\n' )
 	  outf:write( '					"lang_tag": "device_options",\n' )
@@ -1028,7 +1030,7 @@ end
 	  outf:write( '				"ScriptName": "shared.js",\n' )
 	  outf:write( '				"Function": "device_zwave_options"\n' )
 		outf:write( '				},\n' )
-		
+
 		outf:write( '				{\n' )
 	  outf:write( '				"Label": {\n' )
 	  outf:write( '					"lang_tag": "logs",\n' )
