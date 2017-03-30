@@ -1196,19 +1196,14 @@ end
 	
 	debug('Set device file to' .. remote_file_xml .. ' for device ' .. avr_dev .. '.')
 
-
 	os.execute( 'pluto-lzo c '.. remote_path .. remote_file_xml  .. ' ' .. remote_path .. remote_file_xml .. '.lzo')
 	os.execute( 'pluto-lzo c '.. remote_path .. remote_file_json .. ' ' .. remote_path .. remote_file_json ..'.lzo')
 	os.execute( 'pluto-lzo c '.. remote_path .. template_file    .. ' ' .. remote_path .. template_file ..   '.lzo')
-
 
 	os.execute( 'rm '.. remote_path .. remote_file_json)
 	os.execute( 'rm '.. remote_path .. remote_file_xml)
 	os.execute( 'rm '.. remote_path .. template_file)
 	
-
-	luup.call_action("urn:micasaverde-com:serviceId:HomeAutomationGateway1", "Reload", {}, 0)
-
 	return true
 
 end
