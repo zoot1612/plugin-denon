@@ -38,7 +38,6 @@ var avr = (function(api) {
   html += 'form p label {';
   html += 'display:block;';
   html += 'float:left;';
-  html += 'width:100px;';
   html += '}';
 
   html += '</style>';
