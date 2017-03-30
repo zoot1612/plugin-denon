@@ -7,10 +7,10 @@
   <device>
     <deviceType>urn:schemas-denon-com:device:receiver:1</deviceType>
     <staticJson>D_DenonReceiver1_UI7.json</staticJson>
-    <friendlyName>Denon Receiver (AVR) via RS232/Ethernet</friendlyName>
+    <friendlyName>Denon AVR</friendlyName>
     <manufacturer>Denon</manufacturer>
     <manufacturerURL>http://www.denon.com</manufacturerURL>
-    <modelDescription>Denon Receiver over RS232 or Ethernet</modelDescription>
+    <modelDescription>Denon AVR</modelDescription>
     <modelName>Denon AVR series</modelName>
     <modelNumber>1.0</modelNumber>
     <UDN>uuid:2ff93ec0-c2f8-11dd-ad8b-08fff0c9a67</UDN>
