@@ -35,7 +35,7 @@ var avr = (function(api) {
   html += 'text-align: left;';
   html += '}';
   
-  html += 'form p label {';
+  html += 'p {';
   html += 'display:block;';
   html += 'float:left;';
   html += '}';
@@ -112,8 +112,8 @@ var avr = (function(api) {
   html += '<div class="clearfix">';
   html += '<h1>AVR Receiver Configuration</h1>';
   html += '<form name ="avr_config">';
-  html += '<p><label>Zones:</label><input id="avr_zones" type="text" value="' + zones + '" Name="avr_zones"></p>';
-  html += '<p><label>Inputs:</label><input id="avr_inputs" type="text" value="' + inputs + '" Name="avr_inputs" size="100"></p>';
+  html += '<p><label>Zones:</label></p><p><input id="avr_zones" type="text" value="' + zones + '" Name="avr_zones"></p>';
+  html += '<p><label>Inputs:</label></p><p><input id="avr_inputs" type="text" value="' + inputs + '" Name="avr_inputs" size="100"></p>';
   html += '<p><input id="avr_reset" type="button" value="Reset Template" class="btn1" onclick="avr.resetTemplate(' + device + ')"></p>';
   html += '</form>';
   
