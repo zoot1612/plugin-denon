@@ -818,5 +818,5 @@
 					]
 				}
 			],
-			"DeviceType": "urn:schemas-denon-com:device:receiver:1"
+			"device_type": "urn:schemas-denon-com:device:receiver:1"
 		}
