@@ -704,14 +704,7 @@ function receiverStartup(lul_device)
       ui7Check = "false"
     end
 	    
-    if( luup.version_branch == 1 and luup.version_major == 7 and ui7Check == "false") then
-      debug("receiverStartup: XML templates will be updated using UI7 templates")
-      luup.variable_set(DEN_SID, "UI7Check", "true", avr_rec_dev)
-      ui7Check = "true"
-      luup.attr_set("device_json", "D_DenonReceiver1_UI7.json", avr_dev)
-    end
-    
-    local status = cj.create_static_json(g_sourceName, avr_rec_dev, ui7Check)
+    local status = cj.create_static_json(g_sourceName, avr_rec_dev)
     if (status == true) then
       debug("receiverStartup: XML templates have been updated")
       luup.variable_set(DEN_SID, "Setup",  "1", avr_rec_dev)
