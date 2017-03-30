@@ -658,6 +658,11 @@ function receiverStartup(lul_device)
 	
   AVRReceiverSendIntercept("SYMO")
   luup.attr_set("altid", "ZM", avr_rec_dev)
+  local model = luup.attr_get("model", avr_rec_dev) or "AVR_Main"
+  local name = luup.attr_get("name", avr_rec_dev) or ""
+  if(name== "") then
+    luup.attr_set("name", model.."_Main", avr_dev)
+  end
 
   local cj = require("createJSON")
   
