@@ -697,13 +697,6 @@ function receiverStartup(lul_device)
   end
     
   if setupStatus ~= "1" then
-    local ui7Check = luup.variable_get(DEN_SID, "UI7Check", avr_rec_dev) or ""
-    if ui7Check == "" then
-      debug("UI7 check for device " .. avr_rec_dev)
-      luup.variable_set(DEN_SID, "UI7Check", "false", avr_rec_dev)
-      ui7Check = "false"
-    end
-	    
     local status = cj.create_static_json(g_sourceName, avr_rec_dev)
     if (status == true) then
       debug("receiverStartup: XML templates have been updated")
