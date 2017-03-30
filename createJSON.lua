@@ -1179,6 +1179,9 @@ end
 	luup.attr_set("device_file",remote_file_xml, avr_dev)
 	luup.attr_set("device_json",remote_file_json, avr_dev)
 	
+        local model = luup.attr_get("model", avr_dev) or "AVR_Main"
+        luup.attr_set("name", model .. "_Main", avr_dev)
+	
 	debug('Set device file to' .. remote_file_xml .. ' for device ' .. avr_dev .. '.')
 
 
