@@ -656,6 +656,8 @@ function receiverStartup(lul_device)
     return false, "Communications error", "AVR Receiver"
   end
 	
+  luup.attr_set("altid", "ZM", avr_rec_dev)
+	
   AVRReceiverSendIntercept("SYMO")
 
   local cj = require("createJSON")
