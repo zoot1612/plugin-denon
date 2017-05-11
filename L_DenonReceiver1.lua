@@ -490,7 +490,7 @@ local RECEIVER_RESPONSES = {
 
 ------------------------------------------------------------------------------------------
 function processMessage (data, msgType, msgZone)
-    log("processMessage: Data:" .. data .. ' Type:' .. msgType .. ' Zone:' .. msgZone)
+    log("processMessage: Data:" .. data .. ' Type:' .. msgType .. ' No Zone.')
 
     if (not msgType) then
         msgType, data = checkMessage (data)
