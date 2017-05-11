@@ -1,4 +1,4 @@
-local VERSION = "1.29"
+local VERSION = "1.30"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -306,7 +306,7 @@ function handleResponse(data)
     end
 
     if(msgZone == nil) then msgZone = avr_rec_dev end
-    log("handleResponse: Data:" .. data .. ' Type:' .. msgType .. ' Zone:' .. msgZone)
+    log("handleResponse: Data:" .. data .. ' Type:' .. msgType .. ' no Zone')
     processMessage (data, msgType, msgZone)
     return true
 end
