@@ -1,4 +1,4 @@
-local VERSION = "1.30"
+local VERSION = "1.33"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -606,7 +606,7 @@ local function createZones(avr_rec_dev)
       luup.variable_set(DEN_SID, "Zones",  "None", avr_rec_dev)
     end
     
-    if manual_zones ~= "none" then 
+    if manual_zones ~= "None" then 
       child_devices = luup.chdev.start(avr_rec_dev)
       for zone_num in manual_zones:gmatch("%d+") do
         zoneName = (detected_model or 'AVR') .. '_' .. zone_num
