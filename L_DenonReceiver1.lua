@@ -1,4 +1,4 @@
-local VERSION = "1.34"
+local VERSION = "1.35"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -25,6 +25,7 @@ local g_tuner = {}
 local g_xm = {}
 
 local avr_rec_dev = nil
+local avr_rec_zone = nil
 
 local TASK_ERROR      = 2
 local TASK_ERROR_PERM = -2
@@ -269,7 +270,7 @@ function handleResponse(data)
     local message = ""
     local message_type2 = ""
 
-    if(data:match("^Z[M?%d].")) then
+    if(data:match("^Z[M?%d].") and (manual_zones ~= "None")) then
 
         message = data:sub(3)
 
@@ -605,8 +606,9 @@ local function createZones(avr_rec_dev)
     if (manual_zones == "") then
       luup.variable_set(DEN_SID, "Zones",  "None", avr_rec_dev)
     end
-    
-    if manual_zones ~= "None" then 
+	
+    avr_rec_zone = manual_zones
+    if manual_zones ~= "None" then
       child_devices = luup.chdev.start(avr_rec_dev)
       for zone_num in manual_zones:gmatch("%d+") do
         zoneName = (detected_model or 'AVR') .. '_' .. zone_num
