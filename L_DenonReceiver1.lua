@@ -543,7 +543,7 @@ local function setInitialParameters(avr_rec_dev)
 
     for k, v in pairs(luup.devices) do
         if(v.device_num_parent == avr_rec_dev) then
-	  if v.id:match("^uuid*") then return
+	  if v.id:match("^uuid*") then return end
 	  log('Found Child ID: ' .. k .. ' AltID: ' .. v.id)
           AVRReceiverSendIntercept(v.id .. "?")
           AVRReceiverSendIntercept(v.id .. "MU?")
