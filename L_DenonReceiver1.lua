@@ -1,4 +1,4 @@
-local VERSION = "1.35"
+local VERSION = "1.36"
 
 local SWP_SID = "urn:upnp-org:serviceId:SwitchPower1"
 local SWP_STATUS = "Status"
@@ -543,6 +543,7 @@ local function setInitialParameters(avr_rec_dev)
 
     for k, v in pairs(luup.devices) do
         if(v.device_num_parent == avr_rec_dev) then
+	  if v.id:match("^uuid*") then return
 	  log('Found Child ID: ' .. k .. ' AltID: ' .. v.id)
           AVRReceiverSendIntercept(v.id .. "?")
           AVRReceiverSendIntercept(v.id .. "MU?")
